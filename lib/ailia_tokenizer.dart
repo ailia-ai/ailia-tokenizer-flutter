@@ -2237,7 +2237,7 @@ class ailiaTokenizerFFI {
   /// @return
   /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
   /// @details
-  /// 追加トークンファイル (json) を読み込みます。AILIA_TOKENIZER_TYPE_WHISPERの場合のみ有効です。
+  /// 追加トークンファイル (json) を読み込みます。AILIA_TOKENIZER_TYPE_WHISPERもしくはAILIA_TOKENIZER_TYPE_XLM_ROBERTAの場合のみ有効です。
   ///
   /// \~english
   /// @brief Open added tokens file.
@@ -2246,7 +2246,7 @@ class ailiaTokenizerFFI {
   /// @return
   /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
   /// @details
-  /// Open a added tokens file (json). This API only requires for AILIA_TOKENIZER_TYPE_WHISPER.
+  /// Open a added tokens file (json). This API only requires for AILIA_TOKENIZER_TYPE_WHISPER or AILIA_TOKENIZER_TYPE_XLM_ROBERTA.
   int ailiaTokenizerOpenAddedTokensFileA(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Char> path,
@@ -2848,7 +2848,7 @@ class ailiaTokenizerFFI {
   /// @return
   /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
   /// @details
-  /// AILIA_TOKENIZER_TYPE_ROBERTAの場合のみ有効です。
+  /// AILIA_TOKENIZER_TYPE_ROBERTAおよびAILIA_TOKENIZER_TYPE_GPT2の場合のみ有効です。
   ///
   /// \~english
   /// @brief Add SpecialToken
@@ -2858,7 +2858,7 @@ class ailiaTokenizerFFI {
   /// @return
   /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
   /// @details
-  /// This is valid only for AILIA_TOKENIZER_TYPE_ROBERTA and AILIA_TOKENIZER_TYPE_ROBERTA.
+  /// This is valid only for AILIA_TOKENIZER_TYPE_ROBERTA and AILIA_TOKENIZER_TYPE_GPT2.
   int ailiaTokenizerAddSpecialTokens(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Pointer<ffi.Char>> tokens,
@@ -3307,11 +3307,11 @@ final class AILIATokenizer extends ffi.Opaque {}
 
 const int __has_safe_buffers = 1;
 
-const int __DARWIN_ONLY_64_BIT_INO_T = 1;
+const int __DARWIN_ONLY_64_BIT_INO_T = 0;
 
 const int __DARWIN_ONLY_UNIX_CONFORMANCE = 1;
 
-const int __DARWIN_ONLY_VERS_1050 = 1;
+const int __DARWIN_ONLY_VERS_1050 = 0;
 
 const int __DARWIN_UNIX03 = 1;
 
@@ -3320,6 +3320,10 @@ const int __DARWIN_64_BIT_INO_T = 1;
 const int __DARWIN_VERS_1050 = 1;
 
 const int __DARWIN_NON_CANCELABLE = 0;
+
+const String __DARWIN_SUF_64_BIT_INO_T = '\$INODE64';
+
+const String __DARWIN_SUF_1050 = '\$1050';
 
 const String __DARWIN_SUF_EXTSN = '\$DARWIN_EXTSN';
 
@@ -3335,15 +3339,13 @@ const int __DARWIN_NO_LONG_LONG = 0;
 
 const int _DARWIN_FEATURE_64_BIT_INODE = 1;
 
-const int _DARWIN_FEATURE_ONLY_64_BIT_INODE = 1;
-
-const int _DARWIN_FEATURE_ONLY_VERS_1050 = 1;
-
 const int _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
 
 const int _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
 
 const int __has_ptrcheck = 0;
+
+const int __has_bounds_safety_attributes = 0;
 
 const int __DARWIN_NULL = 0;
 
@@ -3530,6 +3532,8 @@ const int AILIA_TOKENIZER_TYPE_BERT = 8;
 const int AILIA_TOKENIZER_TYPE_GPT2 = 9;
 
 const int AILIA_TOKENIZER_TYPE_LLAMA = 10;
+
+const int AILIA_TOKENIZER_TYPE_GEMMA = 11;
 
 const int AILIA_TOKENIZER_FLAG_NONE = 0;
 
