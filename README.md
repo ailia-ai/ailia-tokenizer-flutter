@@ -16,5 +16,5 @@ Since ailia Tokenizer includes Mecab and SentencePiece, it is possible to perfor
 
 ## API specification
 
-https://github.com/axinc-ai/ailia-sdk
+https://github.com/ailia-ai/ailia-sdk
 
