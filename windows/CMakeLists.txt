@@ -48,11 +48,19 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
   "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_link_libraries(${PLUGIN_NAME} PRIVATE flutter flutter_wrapper_plugin)
 
+# Detect the target architecture to select the matching prebuilt library.
+if(CMAKE_GENERATOR_PLATFORM MATCHES "^[Aa][Rr][Mm]64$" OR
+   CMAKE_SYSTEM_PROCESSOR MATCHES "^([Aa][Rr][Mm]64|aarch64)$")
+  set(AILIA_TOKENIZER_ARCH "arm64")
+else()
+  set(AILIA_TOKENIZER_ARCH "x64")
+endif()
+
 # List of absolute paths to libraries that should be bundled with the plugin.
 # This list could contain prebuilt libraries, or libraries created by an
 # external build triggered from this build file.
 set(ailia_tokenizer_bundled_libraries
-  "${CMAKE_CURRENT_SOURCE_DIR}/x64/ailia_tokenizer.dll"
+  "${CMAKE_CURRENT_SOURCE_DIR}/${AILIA_TOKENIZER_ARCH}/ailia_tokenizer.dll"
   PARENT_SCOPE
 )
 
