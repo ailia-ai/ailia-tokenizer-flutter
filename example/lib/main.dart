@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
     String tempPath = tempDir.path;
     var filePath = '$tempPath/$path';
     return File(filePath)
-      .writeAsBytes(buffer.asUint8List(byteData.offsetInBytes, 
+      .writeAsBytes(buffer.asUint8List(byteData.offsetInBytes,
     byteData.lengthInBytes));
   }
 
