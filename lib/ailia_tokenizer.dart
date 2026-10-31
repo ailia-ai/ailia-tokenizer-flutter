@@ -4,7 +4,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 
-/// Written for the FFI article
+/// Dart FFI bindings for ailia Tokenizer (generated from native/ailia_tokenizer.h)
 class ailiaTokenizerFFI {
   /// Holds the symbol lookup function.
   final ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName)
@@ -20,29 +20,20 @@ class ailiaTokenizerFFI {
           lookup)
       : _lookup = lookup;
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトを作成します。
-  /// @param net ネットワークオブジェクトポインタへのポインタ
-  /// @param env_id 計算に利用する推論実行環境のID( ailiaGetEnvironment() で取得)  \ref AILIA_ENVIRONMENT_ID_AUTO
-  /// にした場合は自動で選択する
-  /// @param num_thread スレッド数の上限(  \ref AILIA_MULTITHREAD_AUTO  にした場合は自動で設定)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ネットワークオブジェクトを作成します。
-  /// 推論実行環境を自動にした場合はCPUモードになり、BLASが利用できる場合はBLASを利用します。
-  /// なお、BLASを利用する場合num_threadは無視される場合があります。
+  /// Creates a network instance.
   ///
-  /// \~english
-  /// @brief Creates a network instance.
-  /// @param net A pointer to the network instance pointer
-  /// @param env_id The ID of the inference backend used for computation (obtained by  ailiaGetEnvironment() ). It is
-  /// selected automatically if  \ref AILIA_ENVIRONMENT_ID_AUTO  is specified.
-  /// @param num_thread The upper limit on the number of threads (It is set automatically if  \ref AILIA_MULTITHREAD_AUTO
-  /// is specified.)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the network instance pointer
+  /// - `env_id`: The ID of the inference backend used for computation (obtained by  ailiaGetEnvironment() ). It is
+  ///   selected automatically if  [AILIA_ENVIRONMENT_ID_AUTO]  is specified.
+  /// - `num_thread`: The upper limit on the number of threads (It is set automatically if  [AILIA_MULTITHREAD_AUTO]
+  ///   is specified.)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Creates a network instance.
   /// If the inference backend is set to automatic, CPU mode is used, while if BLAS is available, it uses BLAS.
   /// Note that if BLAS is used, num_thread may be ignored.
@@ -65,22 +56,17 @@ class ailiaTokenizerFFI {
   late final _ailiaCreate = _ailiaCreatePtr.asFunction<
       int Function(ffi.Pointer<ffi.Pointer<AILIANetwork>>, int, int)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトを初期化します。(ファイルから読み込み)
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param path prototxtファイルのパス名(MBSC or UTF16)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ファイルから読み込み、ネットワークオブジェクトを初期化します。
+  /// Initializes the network instance. (Read from file)
   ///
-  /// \~english
-  /// @brief Initializes the network instance. (Read from file)
-  /// @param net A network instance pointer
-  /// @param path The path name to the prototxt file (MBSC or UTF16)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `path`: The path name to the prototxt file (MBSC or UTF16)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function reads the network instance from a file and initializes it.
   int ailiaOpenStreamFileA(
     ffi.Pointer<AILIANetwork> net,
@@ -116,31 +102,24 @@ class ailiaTokenizerFFI {
   late final _ailiaOpenStreamFileW = _ailiaOpenStreamFileWPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトを初期化します。(ユーザ定義ファイルアクセスコールバック)
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param fopen_args  \ref AILIA_USER_API_FOPEN に通知される引数ポインタ
-  /// @param callback ユーザ定義ファイルアクセスコールバック関数構造体
-  /// @param version ファイルアクセスコールバック関数構造体のバージョン( \ref AILIA_FILE_CALLBACK_VERSION )
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ファイルから読み込み、ネットワークオブジェクトを初期化します。
+  /// Initializes the network instance. (User-defined file access callback)
   ///
-  /// \~english
-  /// @brief Initializes the network instance. (User-defined file access callback)
-  /// @param net A network instance pointer
-  /// @param fopen_args An argument pointer supplied by AILIA_USER_API_FOPEN
-  /// @param callback A struct for the user-defined file access callback function
-  /// @param version The version of the struct for the file access callback function ( \ref AILIA_FILE_CALLBACK_VERSION )
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `fopen_args`: An argument pointer supplied by AILIA_USER_API_FOPEN
+  /// - `callback`: A struct for the user-defined file access callback function
+  /// - `version`: The version of the struct for the file access callback function ( [AILIA_FILE_CALLBACK_VERSION] )
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function reads the network instance from a file and initializes it.
   int ailiaOpenStreamEx(
     ffi.Pointer<AILIANetwork> net,
     ffi.Pointer<ffi.Void> fopen_args,
-    ailiaFileCallback callback,
+    _ailiaFileCallback callback,
     int version,
   ) {
     return _ailiaOpenStreamEx(
@@ -154,29 +133,23 @@ class ailiaTokenizerFFI {
   late final _ailiaOpenStreamExPtr = _lookup<
       ffi.NativeFunction<
           ffi.Int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>,
-              ailiaFileCallback, ffi.Int)>>('ailiaOpenStreamEx');
+              _ailiaFileCallback, ffi.Int)>>('ailiaOpenStreamEx');
   late final _ailiaOpenStreamEx = _ailiaOpenStreamExPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>,
-          ailiaFileCallback, int)>();
+          _ailiaFileCallback, int)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトを初期化します。(メモリから読み込み)
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param buf prototxtファイルのデータへのポインタ
-  /// @param buf_size prototxtファイルのデータサイズ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// メモリから読み込み、ネットワークオブジェクトを初期化します。
+  /// Initializes the network instance. (Read from memory)
   ///
-  /// \~english
-  /// @brief Initializes the network instance. (Read from memory)
-  /// @param net A network instance pointer
-  /// @param buf A pointer to the data in the prototxt file
-  /// @param buf_size The data size of the prototxt file
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `buf`: A pointer to the data in the prototxt file
+  /// - `buf_size`: The data size of the prototxt file
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function reads the network instance from memory and initializes it.
   int ailiaOpenStreamMem(
     ffi.Pointer<AILIANetwork> net,
@@ -197,22 +170,17 @@ class ailiaTokenizerFFI {
   late final _ailiaOpenStreamMem = _ailiaOpenStreamMemPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトに重み係数を読み込みます。(ファイルから読み込み)
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param path protobuf/onnxファイルのパス名(MBSC or UTF16)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ファイルからネットワークオブジェクトに重み係数を読み込みます。
+  /// Reads weights into a network instance. (Read from file)
   ///
-  /// \~english
-  /// @brief Reads weights into a network instance. (Read from file)
-  /// @param net A network instance pointer
-  /// @param path The path name to the protobuf/onnx file (MBSC or UTF16)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `path`: The path name to the protobuf/onnx file (MBSC or UTF16)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function reads weights into the network instance from a file.
   int ailiaOpenWeightFileA(
     ffi.Pointer<AILIANetwork> net,
@@ -248,31 +216,24 @@ class ailiaTokenizerFFI {
   late final _ailiaOpenWeightFileW = _ailiaOpenWeightFileWPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトに重み係数を読み込みます。(ユーザ定義ファイルアクセスコールバック)
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param fopen_args  \ref AILIA_USER_API_FOPEN に通知される引数ポインタ
-  /// @param callback ユーザ定義ファイルアクセスコールバック関数構造体
-  /// @param version ファイルアクセスコールバック関数構造体のバージョン( \ref AILIA_FILE_CALLBACK_VERSION )
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ファイルからネットワークオブジェクトに重み係数を読み込みます。
+  /// Reads weights into a network instance. (User-defined file access callback)
   ///
-  /// \~english
-  /// @brief Reads weights into a network instance. (User-defined file access callback)
-  /// @param net A network instance pointer
-  /// @param fopen_args An argument pointer supplied by AILIA_USER_API_FOPEN
-  /// @param callback A struct for the user-defined file access callback function
-  /// @param version The version of the struct for the file access callback function ( \ref AILIA_FILE_CALLBACK_VERSION )
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `fopen_args`: An argument pointer supplied by AILIA_USER_API_FOPEN
+  /// - `callback`: A struct for the user-defined file access callback function
+  /// - `version`: The version of the struct for the file access callback function ( [AILIA_FILE_CALLBACK_VERSION] )
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function reads weights into the network instance from a file.
   int ailiaOpenWeightEx(
     ffi.Pointer<AILIANetwork> net,
     ffi.Pointer<ffi.Void> fopen_args,
-    ailiaFileCallback callback,
+    _ailiaFileCallback callback,
     int version,
   ) {
     return _ailiaOpenWeightEx(
@@ -286,29 +247,23 @@ class ailiaTokenizerFFI {
   late final _ailiaOpenWeightExPtr = _lookup<
       ffi.NativeFunction<
           ffi.Int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>,
-              ailiaFileCallback, ffi.Int)>>('ailiaOpenWeightEx');
+              _ailiaFileCallback, ffi.Int)>>('ailiaOpenWeightEx');
   late final _ailiaOpenWeightEx = _ailiaOpenWeightExPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>,
-          ailiaFileCallback, int)>();
+          _ailiaFileCallback, int)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトに重み係数を読み込みます。(メモリから読み込み)
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param buf protobuf/onnxファイルのデータへのポインタ
-  /// @param buf_size protobuf/onnxファイルのデータサイズ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// メモリからネットワークオブジェクトに重み係数を読み込みます。
+  /// Reads weights into a network instance. (Read from memory)
   ///
-  /// \~english
-  /// @brief Reads weights into a network instance. (Read from memory)
-  /// @param net A network instance pointer
-  /// @param buf A pointer to the data in the protobuf/onnx file
-  /// @param buf_size The data size of the protobuf/onnx file
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `buf`: A pointer to the data in the protobuf/onnx file
+  /// - `buf_size`: The data size of the protobuf/onnx file
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function reads weights into the network instance from memory.
   int ailiaOpenWeightMem(
     ffi.Pointer<AILIANetwork> net,
@@ -329,13 +284,11 @@ class ailiaTokenizerFFI {
   late final _ailiaOpenWeightMem = _ailiaOpenWeightMemPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// \~japanese
-  /// @brief ネットワークオブジェクトを破棄します。
-  /// @param net ネットワークオブジェクトポインタ
+  /// It destroys the network instance.
   ///
-  /// \~english
-  /// @brief It destroys the network instance.
-  /// @param net A network instance pointer
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
   void ailiaDestroy(
     ffi.Pointer<AILIANetwork> net,
   ) {
@@ -350,29 +303,18 @@ class ailiaTokenizerFFI {
   late final _ailiaDestroy =
       _ailiaDestroyPtr.asFunction<void Function(ffi.Pointer<AILIANetwork>)>();
 
-  /// \~japanese
-  /// @brief 推論時の入力データの形状を変更します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 入力データの形状情報
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// prototxtで定義されている入力形状を変更します。
-  /// prototxtに記述されているランクと同じにする必要があります。
-  /// なお、重み係数の形状が入力形状に依存しているなどによりエラーが返る場合があります。
-  /// prototxtで定義されているランクが4次元未満の場合は未使用の要素に1を設定する必要があります。
-  /// prototxtで定義されているランクが5次元以上の場合は ailiaSetInputShapeND() を利用してください。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Changes the shape of the input data during inference.
   ///
-  /// \~english
-  /// @brief Changes the shape of the input data during inference.
-  /// @param net A network instance pointer
-  /// @param shape Shape information for the input data
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: Shape information for the input data
+  /// - `version`: AILIA_SHAPE_VERSION
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function changes the input shape defined in prototxt.
   /// The shape must have the same rank as the one contained in prototxt.
   /// Note that an error may be returned if the weights are dependent on the input shapes, among other reasons.
@@ -398,27 +340,18 @@ class ailiaTokenizerFFI {
   late final _ailiaSetInputShape = _ailiaSetInputShapePtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<AILIAShape>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の入力データの形状を変更します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 入力データの各次元の大きさの配列(dim-1, dim-2, ... ,1, 0)
-  /// @param dim shapeの次元
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// prototxtで定義されている入力形状を変更します。
-  /// prototxtに記述されているランクと同じにする必要があります。
-  /// なお、重み係数の形状が入力形状に依存しているなどによりエラーが返る場合があります。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Changes the shape of the input data during inference.
   ///
-  /// \~english
-  /// @brief Changes the shape of the input data during inference.
-  /// @param net A network instance pointer
-  /// @param shape An array of shape that contains size of each axis (dim-1, dim-2, ... ,1, 0)
-  /// @param dim The size of shape.
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: An array of shape that contains size of each axis (dim-1, dim-2, ... ,1, 0)
+  /// - `dim`: The size of shape.
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function changes the input shape defined in prototxt.
   /// The shape must have the same rank as the one contained in prototxt.
   /// Note that an error may be returned if the weights are dependent on the input shapes, among other reasons.
@@ -445,29 +378,20 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の入力データの形状を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 入力データの形状情報
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、5次元以上の場合 \ref AILIA_STATUS_NDIMENSION_SHAPE 、
-  /// 形状の一部が未確定の場合 \ref AILIA_STATUS_UNSETTLED_SHAPE 、それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// 形状が5次元以上の場合は ailiaGetInputDim() 、 ailiaGetInputShapeND() を利用してください。
-  /// 形状の一部が未確定の場合、該当する次元の値は0となり、それ以外の次元の値は有効な値が格納されます。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the shape of the input data during inference.
   ///
-  /// \~english
-  /// @brief Gets the shape of the input data during inference.
-  /// @param net A network instance pointer
-  /// @param shape Shape information for the input data
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS .
-  /// If shape has 5 or more dimension, it returns  \ref AILIA_STATUS_NDIMENSION_SHAPE .
-  /// And if shape is not seattled, it returns \ref AILIA_STATUS_UNSETTLED_SHAPE , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: Shape information for the input data
+  /// - `version`: AILIA_SHAPE_VERSION
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] .
+  /// If shape has 5 or more dimension, it returns  [AILIA_STATUS_NDIMENSION_SHAPE] .
+  /// And if shape is not seattled, it returns [AILIA_STATUS_UNSETTLED_SHAPE] , or an error code otherwise.
+  ///
   /// When dimension of shape is 5 or more, please use  ailiaGetInputDim() and  ailiaGetInputShapeND().
   /// When shape is not settled, this function stores 0 at unsettled dimension and otherwise stores valid value.
   /// This API can be call after call ailiaOpenWeighXXX().
@@ -490,22 +414,17 @@ class ailiaTokenizerFFI {
   late final _ailiaGetInputShape = _ailiaGetInputShapePtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<AILIAShape>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の入力データの次元を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param dim 入力データの次元の格納先
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the dimension of the input data during inference.
   ///
-  /// \~english
-  /// @brief Gets the dimension of the input data during inference.
-  /// @param net A network instance pointer
-  /// @param dim The storage location of the dimension
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `dim`: The storage location of the dimension
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetInputDim(
     ffi.Pointer<AILIANetwork> net,
@@ -524,27 +443,19 @@ class ailiaTokenizerFFI {
   late final _ailiaGetInputDim = _ailiaGetInputDimPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 推論時の入力データの形状を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 入力データの各次元の大きさの格納先配列(dim-1, dim-2, ... ,1, 0順で格納)
-  /// @param dim shapeの次元
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、形状の一部が未確定の場合 \ref AILIA_STATUS_UNSETTLED_SHAPE 、
-  /// それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// 形状の一部が未確定の場合、該当する次元の値は0となり、それ以外の次元の値は有効な値が格納されます。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the shape of the input data during inference.
   ///
-  /// \~english
-  /// @brief Gets the shape of the input data during inference.
-  /// @param net A network instance pointer
-  /// @param shape The storage location of the shape array. (It stores dim-1, dim-2, ... ,1, 0 order.)
-  /// @param dim The size of shape
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS .
-  /// And if shape is not seattled, it returns  \ref AILIA_STATUS_UNSETTLED_SHAPE , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: The storage location of the shape array. (It stores dim-1, dim-2, ... ,1, 0 order.)
+  /// - `dim`: The size of shape
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] .
+  /// And if shape is not seattled, it returns  [AILIA_STATUS_UNSETTLED_SHAPE] , or an error code otherwise.
+  ///
   /// When shape is not settled, this function stores 0 at unsettled dimension and otherwise stores valid value.
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetInputShapeND(
@@ -569,26 +480,19 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の出力データの形状を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 出力データの形状情報
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、5次元以上の場合 \ref AILIA_STATUS_NDIMENSION_SHAPE 、
-  /// それ以外のエラーの場合エラーコードを返す。
-  /// 形状が5次元以上の場合は ailiaGetOutputDim() 、 ailiaGetOutputShapeND() を利用してください。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the shape of the output data during inference.
   ///
-  /// \~english
-  /// @brief Gets the shape of the output data during inference.
-  /// @param net A network instance pointer
-  /// @param shape Shape information of the output data
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS .
-  /// And if shape has 5 or more dimension, it returns  \ref AILIA_STATUS_NDIMENSION_SHAPE , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: Shape information of the output data
+  /// - `version`: AILIA_SHAPE_VERSION
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] .
+  /// And if shape has 5 or more dimension, it returns  [AILIA_STATUS_NDIMENSION_SHAPE] , or an error code otherwise.
+  ///
   /// When dimension of shape is 5 or more, please use  ailiaGetOutputDim() () and  ailiaGetOutputShapeND().
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetOutputShape(
@@ -610,22 +514,17 @@ class ailiaTokenizerFFI {
   late final _ailiaGetOutputShape = _ailiaGetOutputShapePtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<AILIAShape>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の出力データの次元を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param dim 出力データの次元の格納先
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the dimension of the output data during inference.
   ///
-  /// \~english
-  /// @brief Gets the dimension of the output data during inference.
-  /// @param net A network instance pointer
-  /// @param dim The storage location of the dimension
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `dim`: The storage location of the dimension
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetOutputDim(
     ffi.Pointer<AILIANetwork> net,
@@ -644,24 +543,18 @@ class ailiaTokenizerFFI {
   late final _ailiaGetOutputDim = _ailiaGetOutputDimPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 推論時の出力データの形状を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 出力データの各次元の大きさの格納先配列(dim-1, dim-2, ... ,1, 0順で格納)
-  /// @param dim shapeの次元
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the shape of the output data during inference.
   ///
-  /// \~english
-  /// @brief Gets the shape of the output data during inference.
-  /// @param net A network instance pointer
-  /// @param shape The storage location of the shape array. (It stores dim-1, dim-2, ... ,1, 0 order.)
-  /// @param dim The size of shape
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: The storage location of the shape array. (It stores dim-1, dim-2, ... ,1, 0 order.)
+  /// - `dim`: The size of shape
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetOutputShapeND(
     ffi.Pointer<AILIANetwork> net,
@@ -685,30 +578,22 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 
-  /// \~japanese
-  /// @brief 推論を行い推論結果を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param dest 推論結果の書き出し先バッファにX,Y,Z,Wの順でnumeric型で格納  サイズはネットファイルのoutputSizeとなる
-  /// @param dest_size 推論結果の書き出し先バッファのbyte数
-  /// @param src 推論データ X,Y,Z,Wの順でnumeric型で格納 サイズはネットファイルのinputSizeとなる
-  /// @param src_size 推論データのbyte数
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Performs the inferences and provides the inference result.
   ///
-  /// \~english
-  /// @brief Performs the inferences and provides the inference result.
-  /// @param net A network instance pointer
-  /// @param dest The result is stored in the inference result destination buffer as numeric type data in the order of X,
-  /// Y, Z, and W. The buffer has the same size as the network file outputSize.
-  /// @param dest_size The number of bytes for the destination buffer for the inference result
-  /// @param src The input is stored as numeric type data in the order of the inference data X, Y, Z, and W. The input has
-  /// the same size as the network file inputSize.
-  /// @param src_size The number of bytes of the inference data
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `dest`: The result is stored in the inference result destination buffer as numeric type data in the order of X,
+  ///   Y, Z, and W. The buffer has the same size as the network file outputSize.
+  /// - `dest_size`: The number of bytes for the destination buffer for the inference result
+  /// - `src`: The input is stored as numeric type data in the order of the inference data X, Y, Z, and W. The input has
+  ///   the same size as the network file inputSize.
+  /// - `src_size`: The number of bytes of the inference data
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaPredict(
     ffi.Pointer<AILIANetwork> net,
@@ -738,24 +623,17 @@ class ailiaTokenizerFFI {
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>, int,
           ffi.Pointer<ffi.Void>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)の数を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param blob_count blobの数の格納先
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
-  /// なお、ailiaOpenStreamXXX呼び出し時は入出力Blobのみが列挙され、ailiaOpneWeightXXX呼び出し時に中間Blobの列挙が行われます。
-  /// そのためailiaOpenStreamXXX呼び出し直後とailiaOpneWeightXXX呼び出し直後で返答する数が変わる場合があります。
+  /// Gets the amount of internal data (blob) during inference.
   ///
-  /// \~english
-  /// @brief Gets the amount of internal data (blob) during inference.
-  /// @param net A network instance pointer
-  /// @param blob_count Storage location of the number of blobs
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `blob_count`: Storage location of the number of blobs
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   /// In addition, this api returuns number of sum of inputs and outputs when after call ailiaOpenStreamXXX.
   /// And, when call ailiaOpenWeightXXX, enumerate and optimzie intermediate blobs.
@@ -777,29 +655,20 @@ class ailiaTokenizerFFI {
   late final _ailiaGetBlobCount = _ailiaGetBlobCountPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)の形状を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape データの形状情報の格納先
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、5次元以上の場合 \ref AILIA_STATUS_NDIMENSION_SHAPE 、
-  /// それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// 形状が5次元以上の場合は ailiaGetBlobDim() 、 ailiaGetBlobShapeND() を利用してください。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the shape of the internal data (blob) during inference.
   ///
-  /// \~english
-  /// @brief Gets the shape of the internal data (blob) during inference.
-  /// @param net A network instance pointer
-  /// @param shape Storage location of the data shape information
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS .
-  /// And if shape has 5 or more dimension, it returns  \ref AILIA_STATUS_NDIMENSION_SHAPE , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: Storage location of the data shape information
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  /// - `version`: AILIA_SHAPE_VERSION
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] .
+  /// And if shape has 5 or more dimension, it returns  [AILIA_STATUS_NDIMENSION_SHAPE] , or an error code otherwise.
+  ///
   /// When dimension of shape is 5 or more, please use  ailiaGetBlobDim() and  ailiaGetBlobShapeND().
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetBlobShape(
@@ -824,24 +693,18 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<AILIAShape>, int, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)の次元を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param dim blobの次元の格納先
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the dimension of the internal data (blob) during inference.
   ///
-  /// \~english
-  /// @brief Gets the dimension of the internal data (blob) during inference.
-  /// @param net A network instance pointer
-  /// @param dim The storage location of the dimension
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `dim`: The storage location of the dimension
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetBlobDim(
     ffi.Pointer<AILIANetwork> net,
@@ -865,26 +728,19 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)の形状を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape blobの各次元の大きさの格納先配列(dim-1, dim-2, ... ,1, 0順で格納)
-  /// @param dim shapeの次元
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、それ以外のエラーの場合はエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the amount of internal data (blob) during inference.
   ///
-  /// \~english
-  /// @brief Gets the amount of internal data (blob) during inference.
-  /// @param net A network instance pointer
-  /// @param shape The storage location of the shape array. (It stores dim-1, dim-2, ... ,1, 0 order.)
-  /// @param dim The size of shape
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `shape`: The storage location of the shape array. (It stores dim-1, dim-2, ... ,1, 0 order.)
+  /// - `dim`: The size of shape
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetBlobShapeND(
     ffi.Pointer<AILIANetwork> net,
@@ -911,28 +767,21 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param dest 推論結果の書き出し先バッファにX,Y,Z,Wの順でnumeric型で格納
-  /// @param dest_size 推論結果の書き出し先バッファのbyte数
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaPredict() または ailiaUpdate() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
+  /// Gets the internal data (blob) during inference.
   ///
-  /// \~english
-  /// @brief Gets the internal data (blob) during inference.
-  /// @param net A network instance pointer
-  /// @param dest The result is stored in the inference result destination buffer as numeric type data in the order of X,
-  /// Y, Z, and W.
-  /// @param dest_size The number of bytes for the inference result destination buffer
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// If  ailiaPredict()  or  ailiaUpdate()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `dest`: The result is stored in the inference result destination buffer as numeric type data in the order of X,
+  ///   Y, Z, and W.
+  /// - `dest_size`: The number of bytes for the inference result destination buffer
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// If  ailiaPredict()  or  ailiaUpdate()  is not run at all, the function returns  [AILIA_STATUS_INVALID_STATE] .
   int ailiaGetBlobData(
     ffi.Pointer<AILIANetwork> net,
     ffi.Pointer<ffi.Void> dest,
@@ -955,24 +804,18 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>, int, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)の型を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param type データ型の書き出し先バッファ。値は AILIA_DATATYPE_XXX で定義されています。
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Get the type of Blob.
   ///
-  /// \~english
-  /// @brief Get the type of Blob.
-  /// @param net A network instance pointer
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @param type The type of blob is stored to it. Values are defined as AILIA_DATATYPE_XXX.
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  /// - `type`: The type of blob is stored to it. Values are defined as AILIA_DATATYPE_XXX.
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetBlobDataType(
     ffi.Pointer<AILIANetwork> net,
@@ -993,25 +836,18 @@ class ailiaTokenizerFFI {
   late final _ailiaGetBlobDataType = _ailiaGetBlobDataTypePtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)のインデックスを名前で探し取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @param name 検索するBlob名
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
-  /// なお、ailiaOpenStreamXXX呼び出し時は入出力Blobのみが検索可能です。中間Blobを検索する場合ailiaOpneWeightXXXを呼び出す必要があります。
+  /// Searches by name for the index of the internal data (blob) during inference and returns it.
   ///
-  /// \~english
-  /// @brief Searches by name for the index of the internal data (blob) during inference and returns it.
-  /// @param net A network instance pointer
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @param name The name of the blob to search for
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  /// - `name`: The name of the blob to search for
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   /// In addition, when call this API before call ailiaOpenWeightXXX, can only find inputs and outputs blobs.
   /// If you want find intermediate blobs, please call ailiaOpenWeightXXX before.
@@ -1038,25 +874,18 @@ class ailiaTokenizerFFI {
           int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>,
               ffi.Pointer<ffi.Char>)>();
 
-  /// \~japanese
-  /// @brief 内部データ(Blob)の名前の出力に必要なバッファのサイズを取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param blob_idx blobのインデックス (0～ ailiaGetBlobCount() -1)
-  /// @param buffer_size Blob名の出力に必要なバッファのサイズ(終端null文字分を含む)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
-  /// なお、ailiaOpenStreamXXX呼び出し時は入出力Blobのみが検索可能です。中間Blobを検索する場合ailiaOpneWeightXXXを呼び出す必要があります。
+  /// Gets the size of the buffer needed for output of the name of the internal data (blob).
   ///
-  /// \~english
-  /// @brief Gets the size of the buffer needed for output of the name of the internal data (blob).
-  /// @param net A network instance pointer
-  /// @param blob_idx The index of the blob (0 to  ailiaGetBlobCount() -1)
-  /// @param buffer_size The size of the buffer needed for output of the blob name (including the null terminator)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `blob_idx`: The index of the blob (0 to  ailiaGetBlobCount() -1)
+  /// - `buffer_size`: The size of the buffer needed for output of the blob name (including the null terminator)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   /// In addition, when call this API before call ailiaOpenWeightXXX, can only find inputs and outputs blobs.
   /// If you want find intermediate blobs, please call ailiaOpenWeightXXX before.
@@ -1081,27 +910,19 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIANetwork>, int, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 推論時の内部データ(Blob)の名前をインデックスで探し取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param buffer Blob名の出力先バッファ
-  /// @param buffer_size バッファのサイズ(終端null文字分を含む)
-  /// @param blob_idx 検索するblobのインデックス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
-  /// なお、ailiaOpenStreamXXX呼び出し時は入出力Blobのみが検索可能です。中間Blobを検索する場合ailiaOpneWeightXXXを呼び出す必要があります。
+  /// Searches by index for the name of the internal data (blob) during inference and returns it.
   ///
-  /// \~english
-  /// @brief Searches by index for the name of the internal data (blob) during inference and returns it.
-  /// @param net A network instance pointer
-  /// @param buffer The output destination buffer for the blob name
-  /// @param buffer_size The size of the buffer (including the null terminator)
-  /// @param blob_idx The index of the blob to search for
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `buffer`: The output destination buffer for the blob name
+  /// - `buffer_size`: The size of the buffer (including the null terminator)
+  /// - `blob_idx`: The index of the blob to search for
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   /// In addition, when call this API before call ailiaOpenWeightXXX, can only find inputs and outputs blobs.
   /// If you want find intermediate blobs, please call ailiaOpenWeightXXX before.
@@ -1128,22 +949,17 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Char>, int, int)>();
 
-  /// \~japanese
-  /// @brief ネットワークSummary用に必要なバッファのサイズを取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param buffer_size バッファのサイズの格納先(終端null文字分を含む)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Gets the size of the buffer needed for the network summary.
   ///
-  /// \~english
-  /// @brief Gets the size of the buffer needed for the network summary.
-  /// @param net A network instance pointer
-  /// @param buffer_size The storage location of the buffer size (including the null terminator)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `buffer_size`: The storage location of the buffer size (including the null terminator)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaGetSummaryLength(
     ffi.Pointer<AILIANetwork> net,
@@ -1162,26 +978,19 @@ class ailiaTokenizerFFI {
   late final _ailiaGetSummaryLength = _ailiaGetSummaryLengthPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 各Blobの名前と形状を表示します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param buffer Summaryの出力先
-  /// @param buffer_size 出力バッファのサイズ(終端null文字分を含む)。 ailiaGetSummaryLength()
-  /// で取得した値を設定してください。
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Shows the name and shape of each blob.
   ///
-  /// \~english
-  /// @brief Shows the name and shape of each blob.
-  /// @param net A network instance pointer
-  /// @param buffer The output destination of the summary
-  /// @param buffer_size The size of the output buffer (including the null terminator). Set the value obtained by
-  /// ailiaGetSummaryLength() .
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `buffer`: The output destination of the summary
+  /// - `buffer_size`: The size of the output buffer (including the null terminator). Set the value obtained by
+  ///   ailiaGetSummaryLength() .
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaSummary(
     ffi.Pointer<AILIANetwork> net,
@@ -1202,24 +1011,17 @@ class ailiaTokenizerFFI {
   late final _ailiaSummary = _ailiaSummaryPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Char>, int)>();
 
-  /// \~japanese
-  /// @brief 入力データ(Blob)の数を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param input_blob_count 入力blobの数の格納先
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
-  /// なお、入力Blobの列挙はailiaOpenStreamXXX呼び出し時に行われますが変更可能な重み(input付きinitialzier)の列挙はailiaOpneWeightXXX呼び出し時に行われます。
-  /// そのためailiaOpenStreamXXX呼び出し直後とailiaOpneWeightXXX呼び出し直後で返答する数が変わる場合があります。
+  /// Get the number of input data blobs.
   ///
-  /// \~english
-  /// @brief Get the number of input data blobs.
-  /// @param net A network instance pointer
-  /// @param input_blob_count Storage location of the number of input blobs
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `input_blob_count`: Storage location of the number of input blobs
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   /// In addition, this api returuns number of inputs when after call ailiaOpenStreamXXX.
   /// And, when call ailiaOpenWeightXXX, enumerate and optimzie initializer with input blobs.
@@ -1241,25 +1043,18 @@ class ailiaTokenizerFFI {
   late final _ailiaGetInputBlobCount = _ailiaGetInputBlobCountPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 入力データ(Blob)のインデックスを取得します
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param blob_idx blobのインデックス(0～ ailiaGetBlobCount() -1)
-  /// @param input_blob_idx 入力blob内でのインデックス(0～ ailiaGetInputBlobCount() -1)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
-  /// なお、ailiaOpenStreamXXX呼び出し時に列挙されたinput_blob_idx及びblob_idxは保持されるためailiaOpneWeightXXX呼び出し後も同じ値が返ることが保証されます。
+  /// Get the blob index of the input data.
   ///
-  /// \~english
-  /// @brief Get the blob index of the input data.
-  /// @param net A network instance pointer
-  /// @param blob_idx index of the blob (between 0 and  ailiaGetBlobCount() -1)
-  /// @param input_blob_idx index among the input blobs (between 0 and  ailiaGetInputBlobCount() -1)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `blob_idx`: index of the blob (between 0 and  ailiaGetBlobCount() -1)
+  /// - `input_blob_idx`: index among the input blobs (between 0 and  ailiaGetInputBlobCount() -1)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   /// In addition, we guarantee that input_blob_idx and blob_idx which enumerate when call ailiaOpenStreamXXX are not changed when call ailiaOpneWeightXXX.
   int ailiaGetBlobIndexByInputIndex(
@@ -1285,31 +1080,21 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 
-  /// \~japanese
-  /// @brief 指定したBlobに入力データを与えます。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param src 推論データ X,Y,Z,Wの順でnumeric型で格納
-  /// @param src_size 推論データのbyte数
-  /// @param blob_idx 入力するblobのインデックス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 複数入力があるネットワークなどで入力を指定する場合に用います。
-  /// blob_idxで入力レイヤーのblob以外のものを指定した場合、 \ref AILIA_STATUS_INVALID_ARGUMENT が返ります。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Provides the specified blob with the input data.
   ///
-  /// \~english
-  /// @brief Provides the specified blob with the input data.
-  /// @param net A network instance pointer
-  /// @param src The inference data is stored as numeric type data in the order of X, Y, Z, and W.
-  /// @param src_size The number of bytes of the inference data
-  /// @param blob_idx The index of the blob for input
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `src`: The inference data is stored as numeric type data in the order of X, Y, Z, and W.
+  /// - `src_size`: The number of bytes of the inference data
+  /// - `blob_idx`: The index of the blob for input
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function is used to specify the input on networks with multiple inputs.
-  /// If something other than a blob in the input layer is specified for blob_idx, the function returns  \ref
-  /// AILIA_STATUS_INVALID_ARGUMENT .
+  /// If something other than a blob in the input layer is specified for blob_idx, the function returns  [AILIA_STATUS_INVALID_ARGUMENT] .
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaSetInputBlobData(
     ffi.Pointer<AILIANetwork> net,
@@ -1333,32 +1118,21 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.Void>, int, int)>();
 
-  /// \~japanese
-  /// @brief 指定したBlobの形状を変更します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 入力データの形状情報
-  /// @param blob_idx 変更するblobのインデックス
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 複数入力があるネットワークなどで入力形状を変更する場合に用います。
-  /// blob_idxは入力レイヤーのblob以外のものを指定した場合 \ref AILIA_STATUS_INVALID_ARGUMENT が返ります。
-  /// その他の注意点は ailiaSetInputShape() の解説を参照してください。
-  /// 入力形状のランクが5次元以上の場合は ailiaSetInputBlobShapeND() を利用してください。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Change the shape of the blob given by its index
   ///
-  /// \~english
-  /// @brief Change the shape of the blob given by its index
-  /// @param net network object pointer
-  /// @param shape new shape of the blob
-  /// @param blob_idx index referencing the blob to reshape
-  /// @param version AILIA_SHAPE_VERSION
-  /// @return
-  /// In case of success,  \ref AILIA_STATUS_SUCCESS , and otherwise the coresponding error code.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: network object pointer
+  /// - `shape`: new shape of the blob
+  /// - `blob_idx`: index referencing the blob to reshape
+  /// - `version`: AILIA_SHAPE_VERSION
+  ///
+  /// Returns:
+  ///
+  /// In case of success,  [AILIA_STATUS_SUCCESS] , and otherwise the coresponding error code.
+  ///
   /// This is useful to change the network input shape in a context where there are several input blobs.
-  /// If blob_idx does not correspond to an input layer,  \ref AILIA_STATUS_INVALID_ARGUMENT  is returned.
+  /// If blob_idx does not correspond to an input layer,  [AILIA_STATUS_INVALID_ARGUMENT]  is returned.
   /// For other related remarks, see the documentation of  ailiaSetInputShape().
   /// If dimension of shape has 5 or more, please use  ailiaSetInputBlobShapeND().
   /// This API can be call after call ailiaOpenWeighXXX().
@@ -1384,31 +1158,21 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, ffi.Pointer<AILIAShape>, int, int)>();
 
-  /// \~japanese
-  /// @brief 指定したBlobの形状を変更します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param shape 入力データの各次元の大きさの配列(dim-1, dim-2, ... ,1, 0)
-  /// @param dim shapeの次元
-  /// @param blob_idx 変更するblobのインデックス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 複数入力があるネットワークなどで入力形状を変更する場合に用います。
-  /// blob_idxは入力レイヤーのblob以外のものを指定した場合 \ref AILIA_STATUS_INVALID_ARGUMENT が返ります。
-  /// その他の注意点は ailiaSetInputShapeND() の解説を参照してください。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Change the shape of the blob given by its index
   ///
-  /// \~english
-  /// @brief Change the shape of the blob given by its index
-  /// @param net network object pointer
-  /// @param shape An array of shape that contains size of each axis (dim-1, dim-2, ... ,1, 0)
-  /// @param dim The size of shape.
-  /// @param blob_idx index referencing the blob to reshape
-  /// @return
-  /// In case of success,  \ref AILIA_STATUS_SUCCESS , and otherwise the coresponding error code.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: network object pointer
+  /// - `shape`: An array of shape that contains size of each axis (dim-1, dim-2, ... ,1, 0)
+  /// - `dim`: The size of shape.
+  /// - `blob_idx`: index referencing the blob to reshape
+  ///
+  /// Returns:
+  ///
+  /// In case of success,  [AILIA_STATUS_SUCCESS] , and otherwise the coresponding error code.
+  ///
   /// This is useful to change the network input shape in a context where there are several input blobs.
-  /// If blob_idx does not correspond to an input layer,  \ref AILIA_STATUS_INVALID_ARGUMENT  is returned.
+  /// If blob_idx does not correspond to an input layer,  [AILIA_STATUS_INVALID_ARGUMENT]  is returned.
   /// For other related remarks, see the documentation of  ailiaSetInputShapeND().
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaSetInputBlobShapeND(
@@ -1437,34 +1201,22 @@ class ailiaTokenizerFFI {
           int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>,
               int, int)>();
 
-  /// \~japanese
-  /// @brief 指定したBlob間でデータをコピーします
+  /// Perform copies  between blobs that specified.
   ///
-  /// @param dst_net コピー先のblobが含まれるネットワークオブジェクトポインター
-  /// @param dst_blob_idx コピー先のblobのインデックス
-  /// @param src_net コピー元のblobが含まれるネットワークオブジェクトポインター
-  /// @param src_blob_idx コピー元のblobのインデックス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 指定したネットワークのBlobをコピーします。コピー元とコピー先のネットワークは別のものを指定することができます。
-  /// コピー先のBlobは入力Blobのインデックスを、コピー元のBlobは任意のBlobのインデックスを指定してください。
-  /// コピー先にその他のBlobを指定した場合 \ref AILIA_STATUS_INVALID_ARGUMENT が返ります。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Parameters:
   ///
-  /// \~english
-  /// @brief Perform copies  between blobs that specified.
+  /// - `dst_net`: The network object pointer that contains destination blob
+  /// - `dst_blob_idx`: The index of destination blob
+  /// - `src_net`: The network object pointer that contains source blob
+  /// - `src_blob_idx`: The index of source blob
   ///
-  /// @param dst_net The network object pointer that contains destination blob
-  /// @param dst_blob_idx The index of destination blob
-  /// @param src_net The network object pointer that contains source blob
-  /// @param src_blob_idx The index of source blob
-  /// @return
-  /// In case of success,  \ref AILIA_STATUS_SUCCESS , and otherwise the coresponding error code.
-  /// @details
+  /// Returns:
+  ///
+  /// In case of success,  [AILIA_STATUS_SUCCESS] , and otherwise the coresponding error code.
+  ///
   /// Perform copy blobs between specified network. It accepts copy over different network.
   /// The src_blob_index must be specify blob index that inputs of src_net, and the dst_blob_index mut be specify blob index that outputs of dst_net.
-  /// If specify index of other blob for dst_blob_idx , this function returns \ref AILIA_STATUS_INVALID_ARGUMENT .
+  /// If specify index of other blob for dst_blob_idx , this function returns [AILIA_STATUS_INVALID_ARGUMENT] .
   /// This API can be call after call ailiaOpenWeighXXX().
   int ailiaCopyBlobData(
     ffi.Pointer<AILIANetwork> dst_net,
@@ -1491,22 +1243,16 @@ class ailiaTokenizerFFI {
       int Function(
           ffi.Pointer<AILIANetwork>, int, ffi.Pointer<AILIANetwork>, int)>();
 
-  /// \~japanese
-  /// @brief 事前に指定した入力データで推論を行います。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaSetInputBlobData() を用いて入力を与えた場合などに用います。
-  /// 推論結果は ailiaGetBlobData() で取得してください。
-  /// このAPIはailiaOpenWeighXXX呼び出し後より利用可能です。
+  /// Makes inferences with the input data specified in advance.
   ///
-  /// \~english
-  /// @brief Makes inferences with the input data specified in advance.
-  /// @param net A network instance pointer
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This function is used when, for example, the input is provided with  ailiaSetInputBlobData() .
   /// Get the inference result with  ailiaGetBlobData() .
   /// This API can be call after call ailiaOpenWeighXXX().
@@ -1524,22 +1270,17 @@ class ailiaTokenizerFFI {
   late final _ailiaUpdate =
       _ailiaUpdatePtr.asFunction<int Function(ffi.Pointer<AILIANetwork>)>();
 
-  /// \~japanese
-  /// @brief 出力データ(Blob)の数を取得します。
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param output_blob_count 出力blobの数の格納先
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
+  /// Get the number of output data blobs.
   ///
-  /// \~english
-  /// @brief Get the number of output data blobs.
-  /// @param net A network instance pointer
-  /// @param output_blob_count Storage location for the number of output blobs.
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `output_blob_count`: Storage location for the number of output blobs.
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   int ailiaGetOutputBlobCount(
     ffi.Pointer<AILIANetwork> net,
@@ -1558,24 +1299,18 @@ class ailiaTokenizerFFI {
   late final _ailiaGetOutputBlobCount = _ailiaGetOutputBlobCountPtr.asFunction<
       int Function(ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 出力データ(Blob)のインデックスを取得します
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param blob_idx blobのインデックス(0～ ailiaGetBlobCount() -1)
-  /// @param output_blob_idx 出力blob内でのインデックス(0～ ailiaGetOutputBlobCount() -1)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// このAPIはailiaOpenStreamXXX呼び出し後より利用可能です。
+  /// Get the blob index of the input data blob.
   ///
-  /// \~english
-  /// @brief Get the blob index of the input data blob.
-  /// @param net A network instance pointer
-  /// @param blob_idx blob index (between 0 and  ailiaGetBlobCount() -1)
-  /// @param output_blob_idx index among output blobs (between 0 and  ailiaGetOutputBlobCount() -1)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `blob_idx`: blob index (between 0 and  ailiaGetBlobCount() -1)
+  /// - `output_blob_idx`: index among output blobs (between 0 and  ailiaGetOutputBlobCount() -1)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This API can be call after call ailiaOpenStreamXXX().
   int ailiaGetBlobIndexByOutputIndex(
     ffi.Pointer<AILIANetwork> net,
@@ -1600,20 +1335,12 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIANetwork>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 
-  /// \~japanese
-  /// @brief ailiaがグローバルに確保したGPUリソース等を解放します
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返します。
-  /// @details
-  /// ailiaCreate() で作成したインスタンス全てを ailiaDestroy() で解放した状態で呼び出す必要があります。
-  /// それ以外の状態で呼び出された場合 #ref AILIA_STATUS_INVALID_STATE を返します。
-  /// Windows 環境の場合、DllMain 等からこの API を呼び出すとデッドロックする可能性があります。
+  /// Release GPU and other resources that have been globally allocated with ailia.
   ///
-  /// \~english
-  /// @brief Release GPU and other resources that have been globally allocated with ailia.
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// It must be called with all ailia instances created by ailiaCreate() released by ailiaDestroy().
   /// Otherwise, #ref AILIA_STATUS_INVALID_STATE will be returned.
   /// Call this API from DllMain() on Windows OS, there is possibility of a deadlock.
@@ -1625,24 +1352,16 @@ class ailiaTokenizerFFI {
       _lookup<ffi.NativeFunction<ffi.Int Function()>>('ailiaFinalize');
   late final _ailiaFinalize = _ailiaFinalizePtr.asFunction<int Function()>();
 
-  /// \~japanese
-  /// @brief 一時キャッシュディレクトリを指定します
-  /// @param cache_dir 一時キャッシュディレクトリ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 指定したキャッシュディレクトリは推論実行環境毎に最適化したマシンコードを生成して保存するためにシステムが利用します。
-  /// ailia の実行開始時に一度だけ呼び出してください。二回目以降の呼び出しに対しては無視して成功を返します。
-  /// 複数スレッドから呼び出された場合も内部で排他制御しているので特に問題は発生しません。
-  /// Vulkan のシェーダーキャッシュ機能など、この API を呼ぶまで利用できないものがあります。
-  /// cache_dirにはContext.getCacheDir()で取得したファイルパスを指定してください。
+  /// Specifies a temporary cache directory.
   ///
-  /// \~english
-  /// @brief Specifies a temporary cache directory.
-  /// @param cache_dir Temporary cache directory
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `cache_dir`: Temporary cache directory
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This system uses the specified cache directory to generate and store machine code optimized for each inference
   /// backend. Call only once at the start of execution of ailia. It ignores any second and subsequent calls, and
   /// automatically returns success. There is no particular problem if it is called from multiple threads, as it provides
@@ -1676,17 +1395,15 @@ class ailiaTokenizerFFI {
   late final _ailiaSetTemporaryCachePathW = _ailiaSetTemporaryCachePathWPtr
       .asFunction<int Function(ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief 利用可能な計算環境(CPU, GPU)の数を取得します
-  /// @param env_count 計算環境情報の数の格納先
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Gets the number of available computational environments (CPU, GPU).
   ///
-  /// \~english
-  /// @brief Gets the number of available computational environments (CPU, GPU).
-  /// @param env_count The storage location of the number of computational environment information
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `env_count`: The storage location of the number of computational environment information
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaGetEnvironmentCount(
     ffi.Pointer<ffi.UnsignedInt> env_count,
   ) {
@@ -1701,22 +1418,17 @@ class ailiaTokenizerFFI {
   late final _ailiaGetEnvironmentCount = _ailiaGetEnvironmentCountPtr
       .asFunction<int Function(ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief 計算環境の一覧を取得します
-  /// @param env 計算環境情報の格納先(AILIANetworkインスタンスを破棄するまで有効)
-  /// @param env_idx 計算環境情報のインデックス(0～ ailiaGetEnvironmentCount() -1)
-  /// @param version AILIA_ENVIRONMENT_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Gets the list of computational environments.
   ///
-  /// \~english
-  /// @brief Gets the list of computational environments.
-  /// @param env The storage location of the computational environment information (valid until the AILIANetwork instance
-  /// is destroyed)
-  /// @param env_idx The index of the computational environment information (0 to  ailiaGetEnvironmentCount() -1)
-  /// @param version AILIA_ENVIRONMENT_VERSION
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `env`: The storage location of the computational environment information (Valid until the library is released)
+  /// - `env_idx`: The index of the computational environment information (0 to  ailiaGetEnvironmentCount() -1)
+  /// - `version`: AILIA_ENVIRONMENT_VERSION
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaGetEnvironment(
     ffi.Pointer<ffi.Pointer<AILIAEnvironment>> env,
     int env_idx,
@@ -1736,22 +1448,17 @@ class ailiaTokenizerFFI {
   late final _ailiaGetEnvironment = _ailiaGetEnvironmentPtr.asFunction<
       int Function(ffi.Pointer<ffi.Pointer<AILIAEnvironment>>, int, int)>();
 
-  /// \~japanese
-  /// @brief 選択された計算環境を取得します
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param env 計算環境情報の格納先(AILIANetworkインスタンスを破棄するまで有効)
-  /// @param version AILIA_ENVIRONMENT_VERSION
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Gets the selected computational environment.
   ///
-  /// \~english
-  /// @brief Gets the selected computational environment.
-  /// @param net A network instance pointer
-  /// @param env The storage location of the computational environment information (valid until the AILIANetwork instance
-  /// is destroyed)
-  /// @param version AILIA_ENVIRONMENT_VERSION
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `env`: The storage location of the computational environment information (Valid until the library is released)
+  /// - `version`: AILIA_ENVIRONMENT_VERSION
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaGetSelectedEnvironment(
     ffi.Pointer<AILIANetwork> net,
     ffi.Pointer<ffi.Pointer<AILIAEnvironment>> env,
@@ -1775,33 +1482,23 @@ class ailiaTokenizerFFI {
           int Function(ffi.Pointer<AILIANetwork>,
               ffi.Pointer<ffi.Pointer<AILIAEnvironment>>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時のメモリの使用方針を設定します
-  /// @param net ネットワークオブジェクトポインタ
-  /// @param mode メモリモード(論理和で複数指定可) AILIA_MEMORY_XXX (デフォルト: \ref AILIA_MEMORY_REDUCE_CONSTANT )
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// メモリの使用方針を変更します。 \ref AILIA_MEMORY_NO_OPTIMIZATION 以外を指定した場合は、
-  /// 推論時に確保する中間バッファーを開放するため、推論時のメモリ使用量を削減することができます。
-  /// ailiaCreate() の直後に指定する必要があります。ailiaOpenを呼び出した後は変更することができません。
-  /// なお、中間バッファーを開放するように指定した場合、該当するBlobに対し、 ailiaGetBlobData() を呼び出すと
-  /// \ref AILIA_STATUS_DATA_HIDDEN エラーが返ります。
+  /// Set the memory usage policy for inference
   ///
-  /// \~english
-  /// @brief Set the memory usage policy for inference
-  /// @param net A network instance pointer
-  /// @param mode Memory mode (Multiple specifications possible with logical sum) AILIA_MEMORY_XXX (Default : \ref
-  /// AILIA_MEMORY_REDUCE_CONSTANT )
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  /// - `mode`: Memory mode (Multiple specifications possible with logical sum) AILIA_MEMORY_XXX (Default : [AILIA_MEMORY_REDUCE_CONSTANT] )
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Change the memory usage policy.
-  /// If a value other than  \ref AILIA_MEMORY_NO_OPTIMIZATION  is specified,
+  /// If a value other than  [AILIA_MEMORY_NO_OPTIMIZATION]  is specified,
   /// the intermediate buffer secured during inference will be released, so the memory usage during inference can be
   /// reduced. Must be specified immediately after  ailiaCreate() . It cannot be changed after calling ailiaOpen. If you
   /// specify to release the intermediate buffer, calling  ailiaGetBlobData()  for the corresponding blob will return an
-  /// \ref AILIA_STATUS_DATA_HIDDEN  error.
+  /// [AILIA_STATUS_DATA_HIDDEN]  error.
   int ailiaSetMemoryMode(
     ffi.Pointer<AILIANetwork> net,
     int mode,
@@ -1819,22 +1516,16 @@ class ailiaTokenizerFFI {
   late final _ailiaSetMemoryMode = _ailiaSetMemoryModePtr
       .asFunction<int Function(ffi.Pointer<AILIANetwork>, int)>();
 
-  /// \~japanese
-  /// @brief 推論時のレイヤー統合を無効化します
-  /// @param net ネットワークオブジェクトポインタ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// レイヤー統合により取得できなくなるBlobを取得する必要がある場合などに用います。
-  /// ailiaCreate() の直後に指定する必要があります。ailiaOpenを呼び出した後は変更することができません。
-  /// なお、レイヤー統合を無効化すると推論速度が低下する場合があります。
+  /// Disalbe layer fusion optimaization for inference
   ///
-  /// \~english
-  /// @brief Disalbe layer fusion optimaization for inference
-  /// @param net A network instance pointer
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A network instance pointer
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// This api use to get blob that remove by layer fusion optimization.
   /// Must be specified immediately after  ailiaCreate() . It cannot be changed after calling ailiaOpen.
   /// Note: When disable layer fusion optimization, inference speed may be down.
@@ -1852,24 +1543,17 @@ class ailiaTokenizerFFI {
   late final _ailiaDisableLayerFusion = _ailiaDisableLayerFusionPtr
       .asFunction<int Function(ffi.Pointer<AILIANetwork>)>();
 
-  /// \~japanese
-  /// @brief プロファイルモードをセットします
-  /// @param net          ネットワークオブジェクトポインタ
-  /// @param mode         プロファイルモード
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// プロファイルモードを指定します。デフォルトは無効です。
-  /// ailiaOpenStreamXXXを呼び出したあとに呼び出してください。
-  /// プロファイルモードを有効にした場合、 ailiaSummary() の出力にプロファイル結果が追加されます。
+  /// Set the profile mode.
   ///
-  /// \~english
-  /// @brief Set the profile mode.
-  /// @param net          The network instance pointer
-  /// @param mode         Profile mode AILIA_PROFILE_XXX (Default : \ref AILIA_PROFILE_DISABLE )
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: The network instance pointer
+  /// - `mode`: Profile mode AILIA_PROFILE_XXX (Default : [AILIA_PROFILE_DISABLE] )
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Set the profile mode. The default is profile disabled.
   /// Call it after calling ailiaOpenStreamXXX.
   /// When profile mode is enabled, you can get profile result via  ailiaSummary() .
@@ -1890,23 +1574,17 @@ class ailiaTokenizerFFI {
   late final _ailiaSetProfileMode = _ailiaSetProfileModePtr
       .asFunction<int Function(ffi.Pointer<AILIANetwork>, int)>();
 
-  /// \~japanese
-  /// @brief ステータスコードに対応する文字列を返します。
-  /// @param status_code   ステータスコード
-  /// @return
-  /// ステータスコードに対応する文字列。
-  /// @details
-  /// 返値は解放する必要はありません。
-  /// 返された文字列は ailia のライブラリ(ailia.dll, libailia.so 等)をアンロードするまで有効です。
-  /// AILIANetwork のインスタンスがある場合は ailiaGetErrorDetail() でエラーの詳細を取得できます。
+  /// Returns the string describing given status code.
   ///
-  /// \~english
-  /// @brief Returns the string describing given status code.
-  /// @param status_code    Status code
-  /// @return
+  /// Parameters:
+  ///
+  /// - `status_code`: Status code
+  ///
+  /// Returns:
+  ///
   /// String describing given status code.
   /// Retuned string is valid until the library of ailia (ailia.dll, libailia.so, etc) is unloaded.
-  /// @details
+  ///
   /// The return value does not have to be released.
   /// If an instance of AILIANetwork is exist, ailiaGetErrorDetail() can be used to get the detail of the error.
   ffi.Pointer<ffi.Char> ailiaGetStatusString(
@@ -1923,22 +1601,16 @@ class ailiaTokenizerFFI {
   late final _ailiaGetStatusString = _ailiaGetStatusStringPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(int)>();
 
-  /// \~japanese
-  /// @brief エラーの詳細を返します
-  /// @param net   ネットワークオブジェクトポインタ
-  /// @return
-  /// エラー詳細
-  /// @details
-  /// 返値は解放する必要はありません。
-  /// 文字列の有効期間は次にailiaのAPIを呼ぶまでです。
-  /// モデルが暗号化されている場合は空文字を返します。
+  /// Returns the details of errors.
   ///
-  /// \~english
-  /// @brief Returns the details of errors.
-  /// @param net   The network instance pointer
-  /// @return
+  /// Parameters:
+  ///
+  /// - `net`: The network instance pointer
+  ///
+  /// Returns:
+  ///
   /// Error details
-  /// @details
+  ///
   /// The return value does not have to be released.
   /// The string is valid until the next ailia API function is called.
   /// If model is encrypted, this function returns empty string.
@@ -1957,18 +1629,12 @@ class ailiaTokenizerFFI {
   late final _ailiaGetErrorDetail = _ailiaGetErrorDetailPtr
       .asFunction<ffi.Pointer<ffi.Char> Function(ffi.Pointer<AILIANetwork>)>();
 
-  /// \~japanese
-  /// @brief ライブラリバージョンを取得します
-  /// @return
-  /// バージョン番号
-  /// @details
-  /// 返値は解放する必要はありません。
+  /// Get the version of the library.
   ///
-  /// \~english
-  /// @brief Get the version of the library.
-  /// @return
+  /// Returns:
+  ///
   /// Version number
-  /// @details
+  ///
   /// The return value does not have to be released.
   ffi.Pointer<ffi.Char> ailiaGetVersion() {
     return _ailiaGetVersion();
@@ -1980,24 +1646,18 @@ class ailiaTokenizerFFI {
   late final _ailiaGetVersion =
       _ailiaGetVersionPtr.asFunction<ffi.Pointer<ffi.Char> Function()>();
 
-  /// \~japanese
-  /// @brief トークナイズオブジェクトを作成します。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param type AILIA_TOKENIZER_TYPE_*
-  /// @param flag AILIA_TOKENIZER_FLAG_*の論理和
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// トークナイズオブジェクトを作成します。
+  /// Creates a tokenizer instance.
   ///
-  /// \~english
-  /// @brief Creates a tokenizer instance.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param type AILIA_TOKENIZER_TYPE_*
-  /// @param flag OR of AILIA_TOKENIZER_FLAG_*
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `type`: AILIA_TOKENIZER_TYPE_*
+  /// - `flag`: OR of AILIA_TOKENIZER_FLAG_*
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Creates a tokenizer instance.
   int ailiaTokenizerCreate(
     ffi.Pointer<ffi.Pointer<AILIATokenizer>> net,
@@ -2018,22 +1678,17 @@ class ailiaTokenizerFFI {
   late final _ailiaTokenizerCreate = _ailiaTokenizerCreatePtr.asFunction<
       int Function(ffi.Pointer<ffi.Pointer<AILIATokenizer>>, int, int)>();
 
-  /// \~japanese
-  /// @brief モデルファイルを読み込みます。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param path SentencePieceのモデルファイルのパス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// SentencePieceのモデルファイルを読み込みます。AILIA_TOKENIZER_TYPE_XLM_ROBERTAもしくはAILIA_TOKENIZER_TYPE_MARIANの場合のみ必要です。
+  /// Open model file.
   ///
-  /// \~english
-  /// @brief Open model file.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param path Path for SentencePiece
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `path`: Path for SentencePiece
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Open a model file for SentencePiece. This API only requires for AILIA_TOKENIZER_TYPE_XLM_ROBERTA or AILIA_TOKENIZER_TYPE_MARIAN.
   int ailiaTokenizerOpenModelFileA(
     ffi.Pointer<AILIATokenizer> net,
@@ -2071,22 +1726,17 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerOpenModelFileWPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief 辞書ファイルを読み込みます。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param path Mecabの辞書ファイルのパス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// Mecabの辞書ファイルを読み込みます。AILIA_TOKENIZER_TYPE_BERT_JAPANESE_XXXの場合のみ必要です。
+  /// Open dictionary file.
   ///
-  /// \~english
-  /// @brief Open dictionary file.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param path Path for dictionary of Mecab
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `path`: Path for dictionary of Mecab
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Open a model file for Mecab. This API only requires for AILIA_TOKENIZER_TYPE_BERT_JAPANESE_XXX.
   int ailiaTokenizerOpenDictionaryFileA(
     ffi.Pointer<AILIATokenizer> net,
@@ -2124,23 +1774,18 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerOpenDictionaryFileWPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief 単語ファイルを読み込みます。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param path 単語ファイルのパス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 単語ファイル (ROBERTAとWHISPERとGPT2はjson、それ以外はtxt) を読み込みます。
+  /// Open vocab file.
   ///
-  /// \~english
-  /// @brief Open vocab file.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param path Path for Vocab file
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// Open a vocab file (json for ROBERTA or WHISPER or GPT2, txt for others).
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `path`: Path for Vocab file
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// Open a vocab file (json for ROBERTA or WHISPER or GPT2 or QWEN2, txt for others).
   int ailiaTokenizerOpenVocabFileA(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Char> path,
@@ -2177,23 +1822,18 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerOpenVocabFileWPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief マージファイルを読み込みます。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param path マージファイルのパス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// マージファイル (txt) を読み込みます。AILIA_TOKENIZER_TYPE_ROBERTAもしくはAILIA_TOKENIZER_TYPE_WHISPERもしくはAILIA_TOKENIZER_TYPE_GPT2の場合のみ有効です。
+  /// Open merges file.
   ///
-  /// \~english
-  /// @brief Open merges file.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param path Path for merges file
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// Open a merge file (txt). This API only requires for AILIA_TOKENIZER_TYPE_ROBERTA or AILIA_TOKENIZER_TYPE_WHISPER or AILIA_TOKENIZER_TYPE_GPT2.
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `path`: Path for merges file
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// Open a merge file (txt). This API only requires for AILIA_TOKENIZER_TYPE_ROBERTA or AILIA_TOKENIZER_TYPE_WHISPER or AILIA_TOKENIZER_TYPE_GPT2 or AILIA_TOKENIZER_TYPE_QWEN2.
   int ailiaTokenizerOpenMergeFileA(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Char> path,
@@ -2230,23 +1870,18 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerOpenMergeFileWPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief 追加トークンファイルを読み込みます。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param path スペシャルトークンファイルのパス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 追加トークンファイル (json) を読み込みます。AILIA_TOKENIZER_TYPE_WHISPERもしくはAILIA_TOKENIZER_TYPE_XLM_ROBERTAの場合のみ有効です。
+  /// Open added tokens file.
   ///
-  /// \~english
-  /// @brief Open added tokens file.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param path Path for special token file
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// Open a added tokens file (json). This API only requires for AILIA_TOKENIZER_TYPE_WHISPER or AILIA_TOKENIZER_TYPE_XLM_ROBERTA.
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `path`: Path for special token file
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// Open an added tokens file (json) for WHISPER, XLM_ROBERTA or QWEN2. QWEN2 requires the vocab first. This flat file preserves IDs; special flags are read by OpenTokenizerConfigFile. Reloading the vocab after token registration returns INVALID_STATE.
   int ailiaTokenizerOpenAddedTokensFileA(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Char> path,
@@ -2283,23 +1918,18 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerOpenAddedTokensFileWPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief コンフィグファイルを読み込みます。
-  /// @param net トークナイザオブジェクトポインタへのポインタ
-  /// @param path コンフィグファイルのパス
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// トークナイザコンフィグファイル (json) を読み込みます。AILIA_TOKENIZER_TYPE_BERTの場合のみ有効です。
+  /// Open tokenizer config file.
   ///
-  /// \~english
-  /// @brief Open tokenizer config file.
-  /// @param net A pointer to the tokenizer instance pointer
-  /// @param path Path for config file
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// Open a tokenizer config file (json). This API only requires for AILIA_TOKENIZER_TYPE_BERT.
+  /// Parameters:
+  ///
+  /// - `net`: A pointer to the tokenizer instance pointer
+  /// - `path`: Path for config file
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// Open a tokenizer config file (json) for BERT or QWEN2. For QWEN2, load tokenizer_config.json or tokenizer.json after the vocab to register explicit added-token IDs and special attributes.
   int ailiaTokenizerOpenTokenizerConfigFileA(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Char> path,
@@ -2338,23 +1968,17 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerOpenTokenizerConfigFileWPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.WChar>)>();
 
-  /// \~japanese
-  /// @brief エンコードを行います。
-  /// @param net トークナイザオブジェクトポインタ
-  /// @param text エンコードするテキスト(UTF8)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 認識した結果はailiaTokenizerGetTokens APIで取得します。
-  /// split_special_tokens=Trueと同様に、Special Tokenは分割して文字列として扱われます。
+  /// Perform encode
   ///
-  /// \~english
-  /// @brief Perform encode
-  /// @param net A tokenizer instance pointer
-  /// @param text Text for encode (UTF8)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `text`: Text for encode (UTF8)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Get the encoded result with ailiaTokenizerGetTokens API.
   /// Just like with split_special_tokens=True, Special Tokens are treated as strings by splitting them.
   int ailiaTokenizerEncode(
@@ -2374,23 +1998,17 @@ class ailiaTokenizerFFI {
   late final _ailiaTokenizerEncode = _ailiaTokenizerEncodePtr.asFunction<
       int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Char>)>();
 
-  /// \~japanese
-  /// @brief スペシャルトークンを含んだエンコードを行います。
-  /// @param net トークナイザオブジェクトポインタ
-  /// @param text エンコードするテキスト(UTF8)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// 認識した結果はailiaTokenizerGetTokens APIで取得します。
-  /// split_special_tokens=Falseと同様に、Special Tokenを出力します。
+  /// Perform encode with special tokens
   ///
-  /// \~english
-  /// @brief Perform encode with special tokens
-  /// @param net A tokenizer instance pointer
-  /// @param text Text for encode (UTF8)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `text`: Text for encode (UTF8)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Get the encoded result with ailiaTokenizerGetTokens API.
   /// Similarly to split_special_tokens=False, special tokens will be output.
   int ailiaTokenizerEncodeWithSpecialTokens(
@@ -2411,19 +2029,16 @@ class ailiaTokenizerFFI {
       _ailiaTokenizerEncodeWithSpecialTokensPtr.asFunction<
           int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Char>)>();
 
-  /// \~japanese
-  /// @brief トークンの数を取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param count  オブジェクト数
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Gets the number of tokens.
   ///
-  /// \~english
-  /// @brief Gets the number of tokens.
-  /// @param net   A tokenizer instance pointer
-  /// @param count  The number of objects
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `count`: The number of objects
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaTokenizerGetTokenCount(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.UnsignedInt> count,
@@ -2443,26 +2058,19 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief トークンを取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param tokens トークン
-  /// @param count  格納先トークン数
-  /// @param
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaTokenizerEncode() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
+  /// Gets the tokens.
   ///
-  /// \~english
-  /// @brief Gets the tokens.
-  /// @param net   A tokenizer instance pointer
-  /// @param tokens Token
-  /// @param count  Token count
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `tokens`: Token
+  /// - `count`: Token count
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  [AILIA_STATUS_INVALID_STATE] .
   int ailiaTokenizerGetTokens(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Int> tokens,
@@ -2482,27 +2090,19 @@ class ailiaTokenizerFFI {
   late final _ailiaTokenizerGetTokens = _ailiaTokenizerGetTokensPtr.asFunction<
       int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief ワードIDを取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param word_ids ワードID
-  /// @param count  格納先トークン数
-  /// @param
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaTokenizerEncode() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
-  /// AILIA_TOKENIZER_TYPE_ROBERTAとAILIA_TOKENIZER_TYPE_BERTの場合のみ有効です。
+  /// Gets the word ID.
   ///
-  /// \~english
-  /// @brief Gets the word ID.
-  /// @param net   A tokenizer instance pointer
-  /// @param word_ids Word ID
-  /// @param count  Token count
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `word_ids`: Word ID
+  /// - `count`: Token count
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  [AILIA_STATUS_INVALID_STATE] .
   /// This is valid only for AILIA_TOKENIZER_TYPE_ROBERTA and AILIA_TOKENIZER_TYPE_BERT.
   int ailiaTokenizerGetWordIDs(
     ffi.Pointer<AILIATokenizer> net,
@@ -2525,28 +2125,19 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief 開始文字位置を取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param char_starts 開始文字位置
-  /// @param count  格納先トークン数
-  /// @param
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaTokenizerEncode() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
-  /// AILIA_TOKENIZER_TYPE_ROBERTAとAILIA_TOKENIZER_TYPE_BERTの場合のみ有効です。
-  /// 各トークンに対応するUTF32単位での開始文字位置が返ります。
+  /// Gets the Char start positions.
   ///
-  /// \~english
-  /// @brief Gets the Char start positions.
-  /// @param net   A tokenizer instance pointer
-  /// @param char_starts Character start position
-  /// @param count  Token count
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `char_starts`: Character start position
+  /// - `count`: Token count
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  [AILIA_STATUS_INVALID_STATE] .
   /// This is valid only for AILIA_TOKENIZER_TYPE_ROBERTA and AILIA_TOKENIZER_TYPE_BERT.
   /// The character start positions in UTF-32 units corresponding to each token are returned.
   int ailiaTokenizerGetCharStarts(
@@ -2570,28 +2161,19 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief 終了文字位置を取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param char_ends 終了文字位置
-  /// @param count  格納先トークン数
-  /// @param
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaTokenizerEncode() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
-  /// AILIA_TOKENIZER_TYPE_ROBERTAとAILIA_TOKENIZER_TYPE_BERTの場合のみ有効です。
-  /// 各トークンに対応するUTF32単位での終了文字位置が返ります。
+  /// Gets the Char end positions.
   ///
-  /// \~english
-  /// @brief Gets the Char end positions.
-  /// @param net   A tokenizer instance pointer
-  /// @param char_ends Char end position
-  /// @param count  Token count
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `char_ends`: Char end position
+  /// - `count`: Token count
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// If  ailiaTokenizerEncode()  is not run at all, the function returns  [AILIA_STATUS_INVALID_STATE] .
   /// This is valid only for AILIA_TOKENIZER_TYPE_ROBERTA and AILIA_TOKENIZER_TYPE_BERT.
   /// The character end positions in UTF-32 units corresponding to each token are returned.
   int ailiaTokenizerGetCharEnds(
@@ -2615,25 +2197,18 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief デコードを行います。
-  /// @param net トークナイザオブジェクトポインタ
-  /// @param tokens デコードするトークン
-  /// @param token_count トークンの数
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// デコードした結果はailiaTokenizerGetText APIで取得します。
-  /// skip_special_tokens=Trueと同様に、Special Tokenは出力しません。
+  /// Perform decode
   ///
-  /// \~english
-  /// @brief Perform decode
-  /// @param net A tokenizer instance pointer
-  /// @param tokens Tokens for decode
-  /// @param token_count The number of tokens
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `tokens`: Tokens for decode
+  /// - `token_count`: The number of tokens
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Get the decoded result with ailiaTokenizerGetText API.
   /// Similarly to skip_special_tokens=True, special tokens will not be output.
   int ailiaTokenizerDecode(
@@ -2655,25 +2230,18 @@ class ailiaTokenizerFFI {
   late final _ailiaTokenizerDecode = _ailiaTokenizerDecodePtr.asFunction<
       int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief スペシャルトークンを含んだデコードを行います。
-  /// @param net トークナイザオブジェクトポインタ
-  /// @param tokens デコードするトークン
-  /// @param token_count トークンの数
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// デコードした結果はailiaTokenizerGetText APIで取得します。
-  /// skip_special_tokens=Falseと同様に、Special Tokenを出力します。
+  /// Perform decode with special tokens
   ///
-  /// \~english
-  /// @brief Perform decode with special tokens
-  /// @param net A tokenizer instance pointer
-  /// @param tokens Tokens for decode
-  /// @param token_count The number of tokens
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `tokens`: Tokens for decode
+  /// - `token_count`: The number of tokens
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// Get the decoded result with ailiaTokenizerGetText API.
   /// Similarly to skip_special_tokens=False, special tokens will be output.
   int ailiaTokenizerDecodeWithSpecialTokens(
@@ -2697,19 +2265,16 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Int>, int)>();
 
-  /// \~japanese
-  /// @brief テキストの長さを取得します。(NULL文字含む)
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param len  テキストの長さ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Gets the size of text. (Include null)
   ///
-  /// \~english
-  /// @brief Gets the size of text. (Include null)
-  /// @param net   A tokenizer instance pointer
-  /// @param len  The length of text
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `len`: The length of text
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaTokenizerGetTextLength(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.UnsignedInt> len,
@@ -2729,25 +2294,19 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief テキストを取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param text  テキスト(UTF8)
-  /// @param len バッファサイズ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// ailiaTokenizerDecode() を一度も実行していない場合は \ref AILIA_STATUS_INVALID_STATE が返ります。
+  /// Gets the decoded text.
   ///
-  /// \~english
-  /// @brief Gets the decoded text.
-  /// @param net   A tokenizer instance pointer
-  /// @param text  Text(UTF8)
-  /// @param len  Buffer size
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// If  ailiaTokenizerDecode()  is not run at all, the function returns  \ref AILIA_STATUS_INVALID_STATE .
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `text`: Text(UTF8)
+  /// - `len`: Buffer size
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// If  ailiaTokenizerDecode()  is not run at all, the function returns  [AILIA_STATUS_INVALID_STATE] .
   int ailiaTokenizerGetText(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Char> text,
@@ -2767,19 +2326,16 @@ class ailiaTokenizerFFI {
   late final _ailiaTokenizerGetText = _ailiaTokenizerGetTextPtr.asFunction<
       int Function(ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.Char>, int)>();
 
-  /// \~japanese
-  /// @brief Vocabの数を取得します。
-  /// @param net   トークナイザオブジェクトポインタ
-  /// @param size  Vocabの要素数
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Gets the size of vocab. (Include null)
   ///
-  /// \~english
-  /// @brief Gets the size of vocab. (Include null)
-  /// @param net   A tokenizer instance pointer
-  /// @param size  The size of vocab
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `size`: The size of vocab
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaTokenizerGetVocabSize(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.UnsignedInt> size,
@@ -2799,25 +2355,18 @@ class ailiaTokenizerFFI {
           int Function(
               ffi.Pointer<AILIATokenizer>, ffi.Pointer<ffi.UnsignedInt>)>();
 
-  /// \~japanese
-  /// @brief Vocabの取得を行います。
-  /// @param net トークナイザオブジェクトポインタ
-  /// @param token トークン
-  /// @param vocab Vocabのテキスト(UTF8)
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// vocabを解放する必要はありません。
-  /// vocabの有効期間は次にailiaTokenizer APIを呼び出すまでになります。
+  /// Perform encode
   ///
-  /// \~english
-  /// @brief Perform encode
-  /// @param net A tokenizer instance pointer
-  /// @param token Token
-  /// @param text Text of vocab (UTF8)
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `token`: Token
+  /// - `text`: Text of vocab (UTF8)
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
   /// There is no need to release the vocab.
   /// The validity period of the vocab will last until the next time the ailiaTokenizer API is called.
   int ailiaTokenizerGetVocab(
@@ -2840,25 +2389,19 @@ class ailiaTokenizerFFI {
       int Function(ffi.Pointer<AILIATokenizer>, int,
           ffi.Pointer<ffi.Pointer<ffi.Char>>)>();
 
-  /// \~japanese
-  /// @brief SpecialTokenの追加を行います。
-  /// @param net トークナイザオブジェクトポインタ
-  /// @param tokens トークン(UTF8)
-  /// @param count 追加する個数
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
-  /// @details
-  /// AILIA_TOKENIZER_TYPE_ROBERTAおよびAILIA_TOKENIZER_TYPE_GPT2の場合のみ有効です。
+  /// Add SpecialToken
   ///
-  /// \~english
-  /// @brief Add SpecialToken
-  /// @param net A tokenizer instance pointer
-  /// @param tokens Token(UTF8)
-  /// @param count The number of tokens
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
-  /// @details
-  /// This is valid only for AILIA_TOKENIZER_TYPE_ROBERTA and AILIA_TOKENIZER_TYPE_GPT2.
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
+  /// - `tokens`: Token(UTF8)
+  /// - `count`: The number of tokens
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
+  ///
+  /// This is valid for ROBERTA, GPT2 and QWEN2 after loading the vocab. Adding an already registered token is ignored and its existing ID is preserved, including duplicates in one call. New token IDs follow registration order; load explicit-ID files to preserve pretrained model IDs.
   int ailiaTokenizerAddSpecialTokens(
     ffi.Pointer<AILIATokenizer> net,
     ffi.Pointer<ffi.Pointer<ffi.Char>> tokens,
@@ -2882,13 +2425,11 @@ class ailiaTokenizerFFI {
           int Function(ffi.Pointer<AILIATokenizer>,
               ffi.Pointer<ffi.Pointer<ffi.Char>>, int)>();
 
-  /// \~japanese
-  /// @brief トークナイズオブジェクトを破棄します。
-  /// @param net トークナイザオブジェクトポインタ
+  /// It destroys the tokenizer instance.
   ///
-  /// \~english
-  /// @brief It destroys the tokenizer instance.
-  /// @param net A tokenizer instance pointer
+  /// Parameters:
+  ///
+  /// - `net`: A tokenizer instance pointer
   void ailiaTokenizerDestroy(
     ffi.Pointer<AILIATokenizer> net,
   ) {
@@ -2903,23 +2444,18 @@ class ailiaTokenizerFFI {
   late final _ailiaTokenizerDestroy = _ailiaTokenizerDestroyPtr
       .asFunction<void Function(ffi.Pointer<AILIATokenizer>)>();
 
-  /// \~japanese
-  /// @brief UTF8の文字をUTF32の文字に変換します。
-  /// @param utf32   UTF32の文字
-  /// @param processed_byte 消費したバイト数(UTF8)
-  /// @param utf8  UTF8の文字
-  /// @param utf8_len   バッファサイズ
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Convert UTF8 character to UTF32 character.
   ///
-  /// \~english
-  /// @brief Convert UTF8 character to UTF32 character.
-  /// @param utf32   UTF32の文字
-  /// @param processed_byte Processed bytes on UTF8
-  /// @param utf8  UTF8の文字
-  /// @param utf8_len   Buffer Size
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `utf32`: UTF32の文字
+  /// - `processed_byte`: Processed bytes on UTF8
+  /// - `utf8`: UTF8の文字
+  /// - `utf8_len`: Buffer Size
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaTokenizerUtf8ToUtf32(
     ffi.Pointer<ffi.UnsignedInt> utf32,
     ffi.Pointer<ffi.UnsignedInt> processed_byte,
@@ -2946,21 +2482,17 @@ class ailiaTokenizerFFI {
           int Function(ffi.Pointer<ffi.UnsignedInt>,
               ffi.Pointer<ffi.UnsignedInt>, ffi.Pointer<ffi.Char>, int)>();
 
-  /// \~japanese
-  /// @brief UTF32の文字をUTF8の文字に変換します。
-  /// @param utf8   UTF8の文字(4byte以上必要)
-  /// @param processed_byte 書き込んだ文字数(UTF8)
-  /// @param utf32  UTF32の文字
-  /// @return
-  /// 成功した場合は \ref AILIA_STATUS_SUCCESS 、そうでなければエラーコードを返す。
+  /// Convert UTF32 character to UTF8 character.
   ///
-  /// \~english
-  /// @brief Convert UTF32 character to UTF8 character.
-  /// @param utf8   UTF8 character(Require greater than 4byte)
-  /// @param processed_byte Processed bytes on UTF8
-  /// @param utf32  UTF32 character
-  /// @return
-  /// If this function is successful, it returns  \ref AILIA_STATUS_SUCCESS , or an error code otherwise.
+  /// Parameters:
+  ///
+  /// - `utf8`: UTF8 character(Require greater than 4byte)
+  /// - `processed_byte`: Processed bytes on UTF8
+  /// - `utf32`: UTF32 character
+  ///
+  /// Returns:
+  ///
+  /// If this function is successful, it returns  [AILIA_STATUS_SUCCESS] , or an error code otherwise.
   int ailiaTokenizerUtf32ToUtf8(
     ffi.Pointer<ffi.Char> utf8,
     ffi.Pointer<ffi.UnsignedInt> processed_byte,
@@ -2983,96 +2515,29 @@ class ailiaTokenizerFFI {
               ffi.Pointer<ffi.Char>, ffi.Pointer<ffi.UnsignedInt>, int)>();
 }
 
-final class __mbstate_t extends ffi.Union {
-  @ffi.Array.multi([128])
-  external ffi.Array<ffi.Char> __mbstate8;
+/// ネットワークオブジェクトのインスタンス
+final class AILIANetwork extends ffi.Opaque {}
 
-  @ffi.LongLong()
-  external int _mbstateL;
-}
+final class _AILIAShape extends ffi.Struct {
+  /// Size along the X axis
+  @ffi.UnsignedInt()
+  external int x;
 
-final class __darwin_pthread_handler_rec extends ffi.Struct {
-  external ffi
-      .Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
-      __routine;
+  /// Size along the Y axis
+  @ffi.UnsignedInt()
+  external int y;
 
-  external ffi.Pointer<ffi.Void> __arg;
+  /// Size along the Z axis
+  @ffi.UnsignedInt()
+  external int z;
 
-  external ffi.Pointer<__darwin_pthread_handler_rec> __next;
-}
+  /// Size along the W axis
+  @ffi.UnsignedInt()
+  external int w;
 
-final class _opaque_pthread_attr_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_cond_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([40])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_condattr_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([8])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_mutex_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_mutexattr_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([8])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_once_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([8])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_rwlock_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([192])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_rwlockattr_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  @ffi.Array.multi([16])
-  external ffi.Array<ffi.Char> __opaque;
-}
-
-final class _opaque_pthread_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
-
-  external ffi.Pointer<__darwin_pthread_handler_rec> __cleanup_stack;
-
-  @ffi.Array.multi([8176])
-  external ffi.Array<ffi.Char> __opaque;
+  /// Dimension information
+  @ffi.UnsignedInt()
+  external int dim;
 }
 
 final class _ailiaFileCallback extends ffi.Struct {
@@ -3089,17 +2554,14 @@ final class _ailiaFileCallback extends ffi.Struct {
   external AILIA_USER_API_FCLOSE fclose;
 }
 
-/// \~japanese
-/// @brief ファイルを開きます
-/// @param const void *   ailiaOpenStreamEx() もしくは ailiaOpenWeightEx() に与えたfopen_args
-/// @return
-/// 成功した場合、ユーザ定義ファイルポインタを返す。
-/// 失敗した場合、NULLを返す。
+/// Opens a file.
 ///
-/// \~english
-/// @brief Opens a file.
-/// @param const void *  fopen_args given to  ailiaOpenStreamEx()  or ailiaOpenWeightEx
-/// @return
+/// Parameters:
+///
+/// - `const`: void *  fopen_args given to  ailiaOpenStreamEx()  or ailiaOpenWeightEx
+///
+/// Returns:
+///
 /// This function returns a user-defined file pointer if successful.
 /// It returns NULL if it fails.
 typedef AILIA_USER_API_FOPEN
@@ -3107,21 +2569,17 @@ typedef AILIA_USER_API_FOPEN
 typedef AILIA_USER_API_FOPENFunction = ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>);
 
-/// \~japanese
-/// @brief ファイルをシークします
-/// @param void *                     ユーザ定義ファイルポインタ
-/// @param  \ref AILIA_FSIZE_RETURN_TYPE     ファイル先頭からのオフセットバイト
-/// @return
-/// 成功した場合、 \ref AILIA_USER_API_SUCCESS を返す。
-/// 失敗した場合、 \ref AILIA_USER_API_FAILED を返す。
+/// It seeks the file specified.
 ///
-/// \~english
-/// @brief It seeks the file specified.
-/// @param void *                     A user-defined file pointer
-/// @param  \ref AILIA_FSIZE_RETURN_TYPE     Offset in bytes from the beginning of the file
-/// @return
-/// This function returns  \ref AILIA_USER_API_SUCCESS  if successful.
-/// It returns  \ref AILIA_USER_API_FAILED  if it fails.
+/// Parameters:
+///
+/// - `void`: *                     A user-defined file pointer
+/// - `Offset`: in bytes from the beginning of the file
+///
+/// Returns:
+///
+/// This function returns  [AILIA_USER_API_SUCCESS]  if successful.
+/// It returns  [AILIA_USER_API_FAILED]  if it fails.
 typedef AILIA_USER_API_FSEEK
     = ffi.Pointer<ffi.NativeFunction<AILIA_USER_API_FSEEKFunction>>;
 typedef AILIA_USER_API_FSEEKFunction = ffi.Int Function(
@@ -3129,17 +2587,14 @@ typedef AILIA_USER_API_FSEEKFunction = ffi.Int Function(
 typedef DartAILIA_USER_API_FSEEKFunction = int Function(
     ffi.Pointer<ffi.Void>, int);
 
-/// \~japanese
-/// @brief ファイルの現在位置を取得します
-/// @param void * ユーザ定義ファイルポインタ
-/// @return
-/// 成功した場合、ファイルポインタの位置をバイト単位で返す。
-/// 失敗した場合、-1を返す。
+/// Gets the current position in the file.
 ///
-/// \~english
-/// @brief Gets the current position in the file.
-/// @param void * A user-defined file pointer
-/// @return
+/// Parameters:
+///
+/// - `void`: * A user-defined file pointer
+///
+/// Returns:
+///
 /// This function returns the position, in bytes, the file pointer points to if successful.
 /// It returns -1 if it fails.
 typedef AILIA_USER_API_FTELL
@@ -3148,24 +2603,18 @@ typedef AILIA_USER_API_FTELLFunction = ffi.LongLong Function(
     ffi.Pointer<ffi.Void>);
 typedef DartAILIA_USER_API_FTELLFunction = int Function(ffi.Pointer<ffi.Void>);
 
-/// \~japanese
-/// @brief ファイルからデータを読み込みます
-/// @param void *                     読み込みデータ格納先のポインタ
-/// @param  \ref AILIA_FSIZE_RETURN_TYPE     読み込みデータのバイト長さ
-/// @param void *                     ユーザ定義ファイルポインタ
-/// @return
-/// 成功した場合、 \ref AILIA_USER_API_SUCCESS を返す。
-/// 失敗した場合、 \ref AILIA_USER_API_FAILED を返す。
-/// 標準APIとは異なり、返値はAILIA_USER_API_*になりますのでご注意ください。
+/// Reads data from the file.
 ///
-/// \~english
-/// @brief Reads data from the file.
-/// @param void *                     A pointer to the storage location of the data to be read
-/// @param  \ref AILIA_FSIZE_RETURN_TYPE     The length in bytes of the data to be read
-/// @param void *                     A user-defined file pointer
-/// @return
-/// This function returns  \ref AILIA_USER_API_SUCCESS  if successful.
-/// It returns  \ref AILIA_USER_API_FAILED  if it fails.
+/// Parameters:
+///
+/// - `void`: *                     A pointer to the storage location of the data to be read
+/// - `The`: length in bytes of the data to be read
+/// - `void`: *                     A user-defined file pointer
+///
+/// Returns:
+///
+/// This function returns  [AILIA_USER_API_SUCCESS]  if successful.
+/// It returns  [AILIA_USER_API_FAILED]  if it fails.
 /// Note that unlike the standard API, the return value will be AILIA_USER_API_*.
 typedef AILIA_USER_API_FREAD
     = ffi.Pointer<ffi.NativeFunction<AILIA_USER_API_FREADFunction>>;
@@ -3174,17 +2623,14 @@ typedef AILIA_USER_API_FREADFunction = ffi.Int Function(
 typedef DartAILIA_USER_API_FREADFunction = int Function(
     ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>);
 
-/// \~japanese
-/// @brief ファイルのサイズを取得します
-/// @param void * ユーザ定義ファイルポインタ
-/// @return
-/// 成功した場合、ファイルのサイズをバイト単位で返す。
-/// 失敗した場合、-1を返す。
+/// Gets the size of the file.
 ///
-/// \~english
-/// @brief Gets the size of the file.
-/// @param void * A user-defined file pointer
-/// @return
+/// Parameters:
+///
+/// - `void`: * A user-defined file pointer
+///
+/// Returns:
+///
 /// This function returns the size of the file in bytes if successful.
 /// It returns -1 if it fails.
 typedef AILIA_USER_API_FSIZE
@@ -3193,108 +2639,38 @@ typedef AILIA_USER_API_FSIZEFunction = ffi.LongLong Function(
     ffi.Pointer<ffi.Void>);
 typedef DartAILIA_USER_API_FSIZEFunction = int Function(ffi.Pointer<ffi.Void>);
 
-/// \~japanese
-/// @brief ファイルを閉じます
-/// @param void *  ユーザ定義ファイルポインタ
-/// @return
-/// 成功した場合、 \ref AILIA_USER_API_SUCCESS を返す。
-/// 失敗した場合、 \ref AILIA_USER_API_FAILED を返す。
+/// Closes the file.
 ///
-/// \~english
-/// @brief Closes the file.
-/// @param void *  A user-defined file pointer
-/// @return
-/// This function returns  \ref AILIA_USER_API_SUCCESS  if successful.
-/// It returns  \ref AILIA_USER_API_FAILED  if it fails.
+/// Parameters:
+///
+/// - `void`: *  A user-defined file pointer
+///
+/// Returns:
+///
+/// This function returns  [AILIA_USER_API_SUCCESS]  if successful.
+/// It returns  [AILIA_USER_API_FAILED]  if it fails.
 typedef AILIA_USER_API_FCLOSE
     = ffi.Pointer<ffi.NativeFunction<AILIA_USER_API_FCLOSEFunction>>;
 typedef AILIA_USER_API_FCLOSEFunction = ffi.Int Function(ffi.Pointer<ffi.Void>);
 typedef DartAILIA_USER_API_FCLOSEFunction = int Function(ffi.Pointer<ffi.Void>);
-
-/// ネットワークオブジェクトのインスタンス
-final class AILIANetwork extends ffi.Opaque {}
-
-final class _AILIAShape extends ffi.Struct {
-  /// \~japanese
-  /// X軸のサイズ
-  ///
-  /// \~english
-  /// Size along the X axis
-  @ffi.UnsignedInt()
-  external int x;
-
-  /// \~japanese
-  /// Y軸のサイズ
-  ///
-  /// \~english
-  /// Size along the Y axis
-  @ffi.UnsignedInt()
-  external int y;
-
-  /// \~japanese
-  /// Z軸のサイズ
-  ///
-  /// \~english
-  /// Size along the Z axis
-  @ffi.UnsignedInt()
-  external int z;
-
-  /// \~japanese
-  /// W軸のサイズ
-  ///
-  /// \~english
-  /// Size along the W axis
-  @ffi.UnsignedInt()
-  external int w;
-
-  /// \~japanese
-  /// 次元情報
-  ///
-  /// \~english
-  /// Dimension information
-  @ffi.UnsignedInt()
-  external int dim;
-}
-
-typedef ailiaFileCallback = _ailiaFileCallback;
 typedef AILIAShape = _AILIAShape;
 
 final class _AILIAEnvironment extends ffi.Struct {
-  /// \~japanese
-  /// 環境を識別するID( ailiaCreate() の引数に与える)
-  ///
-  /// \~english
   /// The ID to identify the inference backend (passed to  ailiaCreate()  as an argument)
   @ffi.Int()
   external int id;
 
-  /// \~japanese
-  /// 環境の種別( \ref AILIA_ENVIRONMENT_TYPE_CPU  or BLAS or GPU)
-  ///
-  /// \~english
-  /// The type of the inference backend ( \ref AILIA_ENVIRONMENT_TYPE_CPU , BLAS, or GPU)
+  /// The type of the inference backend ( [AILIA_ENVIRONMENT_TYPE_CPU] , BLAS, or GPU)
   @ffi.Int()
   external int type;
 
-  /// \~japanese
-  /// デバイス名(シングルトンで保持されており開放不要)(ASCII)
-  ///
-  /// \~english
   /// The device name. It is valid until the AILIANetwork instance is destroyed.
   external ffi.Pointer<ffi.Char> name;
 
-  /// \~japanese
-  /// 環境のバックエンド (AILIA_ENVIRONMENT_BACKEND_*)
-  ///
-  /// \~english
   /// Computational (hardware) backend enabled by this environment (AILIA_ENVIRONMENT_BACKEND_*)
   @ffi.Int()
   external int backend;
 
-  /// \~japanese
-  /// 環境の特性などを示す(AILIA_ENVIRONMENT_PROPERTY_* の論理和)
-  ///
-  /// \~english
   /// Additional property (low-power etc) of the environment (Logical-OR of AILIA_ENVIRONMENT_PROPERTY_*)
   @ffi.Int()
   external int props;
@@ -3304,80 +2680,6 @@ typedef AILIAEnvironment = _AILIAEnvironment;
 
 /// トークナイズオブジェクトのインスタンス
 final class AILIATokenizer extends ffi.Opaque {}
-
-const int __has_safe_buffers = 1;
-
-const int __DARWIN_ONLY_64_BIT_INO_T = 0;
-
-const int __DARWIN_ONLY_UNIX_CONFORMANCE = 1;
-
-const int __DARWIN_ONLY_VERS_1050 = 0;
-
-const int __DARWIN_UNIX03 = 1;
-
-const int __DARWIN_64_BIT_INO_T = 1;
-
-const int __DARWIN_VERS_1050 = 1;
-
-const int __DARWIN_NON_CANCELABLE = 0;
-
-const String __DARWIN_SUF_64_BIT_INO_T = '\$INODE64';
-
-const String __DARWIN_SUF_1050 = '\$1050';
-
-const String __DARWIN_SUF_EXTSN = '\$DARWIN_EXTSN';
-
-const int __DARWIN_C_ANSI = 4096;
-
-const int __DARWIN_C_FULL = 900000;
-
-const int __DARWIN_C_LEVEL = 900000;
-
-const int __STDC_WANT_LIB_EXT1__ = 1;
-
-const int __DARWIN_NO_LONG_LONG = 0;
-
-const int _DARWIN_FEATURE_64_BIT_INODE = 1;
-
-const int _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
-
-const int _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
-
-const int __has_ptrcheck = 0;
-
-const int __has_bounds_safety_attributes = 0;
-
-const int __DARWIN_NULL = 0;
-
-const int __PTHREAD_SIZE__ = 8176;
-
-const int __PTHREAD_ATTR_SIZE__ = 56;
-
-const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
-
-const int __PTHREAD_MUTEX_SIZE__ = 56;
-
-const int __PTHREAD_CONDATTR_SIZE__ = 8;
-
-const int __PTHREAD_COND_SIZE__ = 40;
-
-const int __PTHREAD_ONCE_SIZE__ = 8;
-
-const int __PTHREAD_RWLOCK_SIZE__ = 192;
-
-const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
-
-const int __DARWIN_WCHAR_MAX = 2147483647;
-
-const int __DARWIN_WCHAR_MIN = -2147483648;
-
-const int __DARWIN_WEOF = -1;
-
-const int _FORTIFY_SOURCE = 2;
-
-const int NULL = 0;
-
-const int USER_ADDR_NULL = 0;
 
 const int AILIA_USER_API_SUCCESS = 0;
 
@@ -3401,6 +2703,8 @@ const int AILIA_STATUS_THREAD_ERROR = -6;
 
 const int AILIA_STATUS_INVALID_STATE = -7;
 
+const int AILIA_STATUS_UNSUPPORTED_NET = -9;
+
 const int AILIA_STATUS_UNSUPPORT_NET = -9;
 
 const int AILIA_STATUS_INVALID_LAYER = -10;
@@ -3408,6 +2712,8 @@ const int AILIA_STATUS_INVALID_LAYER = -10;
 const int AILIA_STATUS_INVALID_PARAMINFO = -11;
 
 const int AILIA_STATUS_NOT_FOUND = -12;
+
+const int AILIA_STATUS_GPU_UNSUPPORTED_LAYER = -13;
 
 const int AILIA_STATUS_GPU_UNSUPPORT_LAYER = -13;
 
@@ -3477,8 +2783,6 @@ const int AILIA_ENVIRONMENT_TYPE_BLAS = 1;
 
 const int AILIA_ENVIRONMENT_TYPE_GPU = 2;
 
-const int AILIA_ENVIRONMENT_TYPE_REMOTE = 3;
-
 const int AILIA_ENVIRONMENT_BACKEND_NONE = 0;
 
 const int AILIA_ENVIRONMENT_BACKEND_CUDA = 2;
@@ -3534,6 +2838,8 @@ const int AILIA_TOKENIZER_TYPE_GPT2 = 9;
 const int AILIA_TOKENIZER_TYPE_LLAMA = 10;
 
 const int AILIA_TOKENIZER_TYPE_GEMMA = 11;
+
+const int AILIA_TOKENIZER_TYPE_QWEN2 = 12;
 
 const int AILIA_TOKENIZER_FLAG_NONE = 0;
 

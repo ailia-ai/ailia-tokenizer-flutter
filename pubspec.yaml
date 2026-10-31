@@ -1,7 +1,8 @@
 name: ailia_tokenizer
 description: "ailia Tokenizer for Flutter"
-version: 1.6.0
-homepage:
+version: 1.7.0
+homepage: https://ailia.ai/
+publish_to: none
 
 environment:
   sdk: '>=3.3.4 <4.0.0'
@@ -17,7 +18,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  ffigen:
+  ffigen: ^14.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
